@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UCSF BioRouter — About</title>
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .about-layout { max-width: 860px; margin: 0 auto; padding: 80px 24px 80px; }
+    .about-layout > h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 12px; }
+    .about-layout > .subtitle { font-size: 16px; color: var(--text-2); margin-bottom: 56px; }
+
+    /* ── Section headings ─────────────────────────────────────────── */
+    .section-header { margin-bottom: 28px; }
+    .section-header .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .section-header h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+
+    /* ── News ─────────────────────────────────────────────────────── */
+    .news-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 64px; }
+    .news-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 22px 24px;
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: var(--transition); text-decoration: none; color: inherit;
+    }
+    .news-card:hover { border-color: var(--accent); background: var(--bg-3); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(207,109,71,0.08); }
+    .news-date {
+      flex-shrink: 0; background: var(--accent-dim);
+      border: 1px solid rgba(207,109,71,0.2);
+      border-radius: 10px; padding: 8px 14px; text-align: center;
+      min-width: 60px;
+    }
+    .news-date .day { font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .news-date .mon { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .news-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .news-body p { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+    .news-link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--accent); margin-top: 10px; }
+
+    /* ── Links grid ───────────────────────────────────────────────── */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px; margin-bottom: 64px;
+    }
+    .link-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 20px 22px;
+      text-decoration: none; color: inherit;
+      display: flex; align-items: center; gap: 14px;
+      transition: var(--transition);
+    }
+    .link-card:hover { border-color: var(--accent); background: var(--bg-3); transform: translateY(-1px); }
+    .link-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .link-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .link-card span { font-size: 12px; color: var(--text-3); }
+
+    /* ── Acknowledgements ─────────────────────────────────────────── */
+    .ack-section { margin-bottom: 64px; }
+    .ack-groups { display: flex; flex-direction: column; gap: 28px; margin-top: 8px; }
+    .ack-group h4 {
+      font-size: 11px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .ack-group a.ack-group-link {
+      font-size: 11px; color: var(--text-3); text-decoration: none; margin-left: 8px;
+    }
+    .ack-group a.ack-group-link:hover { color: var(--accent); }
+    .ack-names { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ack-chip {
+      padding: 6px 16px; border-radius: 100px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+    }
+
+    /* ── Developer — minimalist ───────────────────────────────────── */
+    .dev-minimal { padding: 4px 0 8px; }
+    .dev-minimal .dev-name { font-size: 17px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+    .dev-minimal .dev-role { font-size: 14px; color: var(--text-2); margin-bottom: 14px; }
+    .dev-minimal .dev-links { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+    .dev-minimal .dev-link {
+      font-size: 13px; color: var(--text-2); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: var(--transition);
+    }
+    .dev-minimal .dev-link:hover { color: var(--accent); }
+    .dev-minimal .dev-link svg { flex-shrink: 0; }
+
+    @media (max-width: 600px) {
+      .news-card { flex-direction: column; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-brand" href="intro.html">
+    <img src="icon.png" class="nav-logo" alt="BioRouter" />
+    <span class="nav-title">UCSF BioRouter</span>
+  </a>
+  <ul class="nav-tabs">
+    <li><a href="intro.html">Introduction</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="docs.html">Documentation</a></li>
+    <li><a href="baam.html">BAAM</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="nav-gh-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+      GitHub
+    </a>
+  </div>
+  <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="intro.html">Introduction</a>
+  <a href="download.html">Download</a>
+  <a href="docs.html">Documentation</a>
+  <a href="baam.html">BAAM</a>
+  <a href="about.html" class="active">About</a>
+</div>
+
+<main class="page">
+  <div class="about-layout">
+    <h1>About BioRouter</h1>
+    <p class="subtitle">UCSF BioRouter is an open-source, AI-powered integrated research environment developed at the Baranzini Lab, UCSF.</p>
+
+    <!-- ── NEWS ──────────────────────────────────────────────────── -->
+    <div class="section-header">
+      <p class="eyebrow">News</p>
+      <h2>Latest Updates</h2>
+    </div>
+    <div class="news-list">
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.20.0" target="_blank" class="news-card">
+        <div class="news-date">
+          <div class="day">Feb</div>
+          <div class="mon">2026</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.20.0 Released</h3>
+          <p>Multi-platform launch (macOS Apple Silicon + Intel, Windows x64, Linux Debian + RPM), updated default models (Claude Sonnet 4 and GPT-4.1), refreshed branding, simplified provider onboarding, and a complete documentation suite.</p>
+          <div class="news-link">View full release notes →</div>
+        </div>
+      </a>
+      <a href="https://ai.ucsf.edu/researchday" target="_blank" class="news-card">
+        <div class="news-date">
+          <div class="day">2026</div>
+          <div class="mon">Event</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter at UCSF AI Research Day</h3>
+          <p>BioRouter will be featured at UCSF AI Research Day — showcasing agentic AI workflows for biomedical research, the BAAM marketplace, and federated cross-institution collaboration capabilities.</p>
+          <div class="news-link">UCSF AI Research Day →</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="h-rule"></div>
+
+    <!-- ── LINKS ──────────────────────────────────────────────────── -->
+    <div class="section-header">
+      <p class="eyebrow">Resources</p>
+      <h2>Useful Links</h2>
+    </div>
+    <div class="links-grid">
+      <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="link-card">
+        <div class="link-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+        </div>
+        <div>
+          <h4>GitHub Repository</h4>
+          <span>BaranziniLab/BioRouter</span>
+        </div>
+      </a>
+      <a href="https://baranzinilab.ucsf.edu/" target="_blank" class="link-card">
+        <div class="link-icon">🔬</div>
+        <div>
+          <h4>The Baranzini Lab</h4>
+          <span>baranzinilab.ucsf.edu</span>
+        </div>
+      </a>
+      <a href="https://bakarinstitute.ucsf.edu/" target="_blank" class="link-card">
+        <div class="link-icon">🏛️</div>
+        <div>
+          <h4>Bakar CHSI</h4>
+          <span>Computational Health Sciences Institute</span>
+        </div>
+      </a>
+      <a href="https://ars.ucsf.edu/" target="_blank" class="link-card">
+        <div class="link-icon">🎓</div>
+        <div>
+          <h4>UCSF Academic Research Services</h4>
+          <span>ars.ucsf.edu</span>
+        </div>
+      </a>
+      <a href="https://ai.ucsf.edu/platforms-tools-and-resources/ucsf-versa" target="_blank" class="link-card">
+        <div class="link-icon">🤖</div>
+        <div>
+          <h4>UCSF Versa</h4>
+          <span>Institutional AI Platform</span>
+        </div>
+      </a>
+      <a href="https://ai.ucsf.edu/researchday" target="_blank" class="link-card">
+        <div class="link-icon">📅</div>
+        <div>
+          <h4>UCSF AI Research Day</h4>
+          <span>ai.ucsf.edu/researchday</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="h-rule"></div>
+
+    <!-- ── ACKNOWLEDGEMENTS ───────────────────────────────────────── -->
+    <div class="ack-section">
+      <div class="section-header">
+        <p class="eyebrow">Contributors</p>
+        <h2>Acknowledgements</h2>
+      </div>
+      <div class="ack-groups">
+        <div class="ack-group">
+          <h4>
+            The Baranzini Lab
+            <a href="https://baranzinilab.ucsf.edu/" target="_blank" class="ack-group-link">baranzinilab.ucsf.edu ↗</a>
+          </h4>
+          <div class="ack-names">
+            <span class="ack-chip">Gianmarco Bellucci</span>
+            <span class="ack-chip">Sergio Baranzini</span>
+          </div>
+        </div>
+        <div class="ack-group">
+          <h4>
+            Bakar Computational Health Science Institute (BCHSI)
+            <a href="https://bakarinstitute.ucsf.edu/" target="_blank" class="ack-group-link">bakarinstitute.ucsf.edu ↗</a>
+          </h4>
+          <div class="ack-names">
+            <span class="ack-chip">Sharat Israni</span>
+            <span class="ack-chip">Marina Sirota</span>
+          </div>
+        </div>
+        <div class="ack-group">
+          <h4>
+            UCSF Academic Research Services (ARS)
+            <a href="https://ars.ucsf.edu/" target="_blank" class="ack-group-link">ars.ucsf.edu ↗</a>
+          </h4>
+          <div class="ack-names">
+            <span class="ack-chip">William Santo</span>
+            <span class="ack-chip">Evan Philps</span>
+            <span class="ack-chip">Rick Larson</span>
+            <span class="ack-chip">Oksana Gologorskaya</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-rule"></div>
+
+    <!-- ── DEVELOPER ──────────────────────────────────────────────── -->
+    <div class="section-header">
+      <p class="eyebrow">Developer</p>
+      <h2>About the Developer</h2>
+    </div>
+    <div class="dev-minimal">
+      <p class="dev-name">Wanjun Gu</p>
+      <p class="dev-role">Lead Developer &mdash; Baranzini Lab, UCSF</p>
+      <div class="dev-links">
+        <a href="mailto:wanjun.gu@ucsf.edu" class="dev-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          wanjun.gu@ucsf.edu
+        </a>
+        <a href="https://github.com/Broccolito" target="_blank" class="dev-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          github.com/Broccolito
+        </a>
+        <a href="https://baranzinilab.ucsf.edu/" target="_blank" class="dev-link">
+          Baranzini Lab
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /about-layout -->
+</main>
+
+<footer>
+  <p>UCSF BioRouter · Apache 2.0 License · <a href="https://github.com/BaranziniLab/BioRouter" target="_blank">GitHub</a> · <a href="https://baranzinilab.ucsf.edu/" target="_blank">Baranzini Lab</a> · <a href="https://www.ucsf.edu" target="_blank">UCSF</a></p>
+</footer>
+
+<script>
+  function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobile-menu');
+    const h = document.querySelector('.hamburger');
+    if (m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
+  });
+</script>
+</body>
+</html>

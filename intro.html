@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UCSF BioRouter — Introduction</title>
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    .hero {
+      min-height: calc(100vh - 60px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 20%, rgba(207,109,71,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(207,109,71,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-logo-wrap { position: relative; margin-bottom: 36px; }
+    .hero-logo-glow {
+      position: absolute; inset: -20px;
+      background: radial-gradient(circle, rgba(207,109,71,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .hero-logo {
+      width: 96px; height: 96px; border-radius: 22px;
+      position: relative; z-index: 1;
+      box-shadow: 0 0 0 1px rgba(207,109,71,0.20), 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 100px;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.3);
+      color: var(--accent); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 2s ease-in-out infinite; }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 76px);
+      font-weight: 700; letter-spacing: -3px; line-height: 1.05;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #2a2520 30%, var(--accent) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-2); max-width: 620px; margin: 0 auto 40px;
+      font-weight: 400; line-height: 1.65;
+    }
+    .hero-actions {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    /* ── Features ─────────────────────────────────────────────────── */
+    .features { padding: 64px 24px 80px; max-width: 1100px; margin: 0 auto; }
+
+    /* ── Stack ────────────────────────────────────────────────────── */
+    .stack-section { padding: 0 24px 80px; max-width: 1100px; margin: 0 auto; }
+
+    /* ── CTA strip ────────────────────────────────────────────────── */
+    .cta-strip { text-align: center; padding: 0 24px 80px; }
+    .cta-strip .links {
+      display: inline-flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-brand" href="intro.html">
+    <img src="icon.png" class="nav-logo" alt="BioRouter" />
+    <span class="nav-title">UCSF BioRouter</span>
+  </a>
+  <ul class="nav-tabs">
+    <li><a href="intro.html" class="active">Introduction</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="docs.html">Documentation</a></li>
+    <li><a href="baam.html">BAAM</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="nav-gh-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+      GitHub
+    </a>
+  </div>
+  <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="intro.html" class="active">Introduction</a>
+  <a href="download.html">Download</a>
+  <a href="docs.html">Documentation</a>
+  <a href="baam.html">BAAM</a>
+  <a href="about.html">About</a>
+  <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" style="margin-top:8px;">GitHub →</a>
+</div>
+
+<main class="page">
+
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-badge"><span></span> v1.20.0 Now Available</div>
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-glow"></div>
+      <img src="icon.png" class="hero-logo" alt="BioRouter" />
+    </div>
+    <h1>UCSF BioRouter</h1>
+    <p class="hero-sub">
+      An AI-powered integrated research environment that unifies commercial, institution-hosted, and local AI models — built for secure, scalable biomedical discovery.
+    </p>
+    <div class="hero-actions">
+      <a href="download.html" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Free
+      </a>
+      <a href="docs.html" class="btn-secondary">Documentation</a>
+      <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FEATURES ──────────────────────────────────────────────────── -->
+  <div class="features">
+    <div class="section-label">
+      <p class="eyebrow">Why BioRouter</p>
+      <h2>Research AI, Reimagined for Science</h2>
+      <p>Biomedical researchers face unique challenges — sensitive data, proprietary codebases, on-prem datasets, and the need for reproducible, collaborative workflows. BioRouter solves all of this in one platform.</p>
+    </div>
+    <div class="card-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔒</div>
+        <h3>Enterprise-Grade Security</h3>
+        <p>Use UCSF-hosted AI models (Azure OpenAI, Amazon Bedrock) or fully local Ollama inference. Patient data and proprietary research never leave your institutional environment.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🤖</div>
+        <h3>Agentic Orchestration</h3>
+        <p>Connect specialized AI agents via the Model Context Protocol. Query clinical databases, biomedical knowledge graphs, and literature — all coordinated in one intelligent conversation.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔗</div>
+        <h3>Federated Collaboration</h3>
+        <p>Package any workflow as a shareable Recipe. Collaborate across institutions without sharing sensitive data — standardized, AI-adapted pipelines that travel without their payloads.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🧠</div>
+        <h3>Multi-Provider AI</h3>
+        <p>Seamlessly switch between Claude, GPT, Gemini, and more — commercial, institution-hosted, or fully local. One interface, every model, zero lock-in.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">⚡</div>
+        <h3>Automation &amp; Scheduling</h3>
+        <p>Automate repetitive research tasks with Recipes. Schedule pipelines on a cron schedule — literature reviews, data pulls, and analyses that run while you sleep.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🛠️</div>
+        <h3>Desktop &amp; CLI</h3>
+        <p>A beautiful GUI for interactive exploration and a powerful command-line interface for scripting and integration into existing bioinformatics pipelines.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROVIDER STACK ─────────────────────────────────────────────── -->
+  <div class="stack-section">
+    <div class="section-label">
+      <p class="eyebrow">Provider Ecosystem</p>
+      <h2>One Platform, Every Provider</h2>
+      <p>BioRouter connects to all major LLM providers — pick the one that fits your security requirements and research needs, and switch at any time.</p>
+    </div>
+    <div class="provider-grid">
+      <div class="provider-chip highlight">🏛️ UCSF Azure OpenAI</div>
+      <div class="provider-chip highlight">🏛️ UCSF Amazon Bedrock</div>
+      <div class="provider-chip">🤖 Anthropic Claude</div>
+      <div class="provider-chip">💬 OpenAI GPT</div>
+      <div class="provider-chip">✨ Google Gemini</div>
+      <div class="provider-chip">🦙 Ollama (Local)</div>
+      <div class="provider-chip">🌐 OpenRouter</div>
+      <div class="provider-chip">🔮 X.AI Grok</div>
+      <div class="provider-chip">⚙️ Custom Endpoints</div>
+    </div>
+  </div>
+
+  <!-- ── CTA STRIP ──────────────────────────────────────────────────── -->
+  <div class="cta-strip">
+    <div class="links">
+      <a href="about.html" class="btn-secondary btn-sm">About &amp; Acknowledgements</a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.20.0" target="_blank" class="btn-secondary btn-sm">v1.20.0 Release Notes</a>
+      <a href="https://baranzinilab.ucsf.edu/" target="_blank" class="btn-secondary btn-sm">Baranzini Lab</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>UCSF BioRouter · Apache 2.0 License · <a href="https://github.com/BaranziniLab/BioRouter" target="_blank">GitHub</a> · <a href="https://baranzinilab.ucsf.edu/" target="_blank">Baranzini Lab</a> · <a href="https://www.ucsf.edu" target="_blank">UCSF</a></p>
+  <p style="font-size:12px; color: var(--bg-4); margin-top:6px;">Built with care for biomedical research.</p>
+</footer>
+
+<script>
+  function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobile-menu');
+    const h = document.querySelector('.hamburger');
+    if (m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
+  });
+</script>
+</body>
+</html>
