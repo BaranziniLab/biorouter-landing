@@ -81,6 +81,16 @@
       background: var(--bg-3); border: 1px solid var(--border);
       font-size: 13px; font-weight: 500; color: var(--text-2);
     }
+    .ack-oss-list { display: flex; flex-direction: column; gap: 10px; }
+    .ack-oss-item {
+      display: flex; align-items: baseline; gap: 10px;
+      font-size: 14px; line-height: 1.5;
+    }
+    .ack-oss-item a {
+      font-weight: 600; color: var(--accent); text-decoration: none; white-space: nowrap;
+    }
+    .ack-oss-item a:hover { text-decoration: underline; }
+    .ack-oss-item span { color: var(--text-2); }
 
     /* ── Developer — minimalist ───────────────────────────────────── */
     .dev-minimal { padding: 4px 0 8px; }
@@ -261,6 +271,31 @@
             <span class="ack-chip">Evan Philps</span>
             <span class="ack-chip">Rick Larson</span>
             <span class="ack-chip">Oksana Gologorskaya</span>
+          </div>
+        </div>
+        <div class="ack-group">
+          <h4>Open Source Inspirations</h4>
+          <div class="ack-oss-list">
+            <div class="ack-oss-item">
+              <a href="https://block.github.io/goose/" target="_blank">Goose</a>
+              <span>CLI/Desktop agent for full developer workflows (Block) — BioRouter's primary upstream foundation</span>
+            </div>
+            <div class="ack-oss-item">
+              <a href="https://aider.chat/" target="_blank">Aider</a>
+              <span>Open-source, Git-native CLI AI coding agent</span>
+            </div>
+            <div class="ack-oss-item">
+              <a href="https://github.com/cline/cline" target="_blank">Cline</a>
+              <span>Open-source interactive CLI coding agent</span>
+            </div>
+            <div class="ack-oss-item">
+              <a href="https://opencode.ai/" target="_blank">OpenCode</a>
+              <span>Open-source coding agent with multi-session and multi-provider support</span>
+            </div>
+            <div class="ack-oss-item">
+              <a href="https://forgecode.dev/" target="_blank">ForgeCode</a>
+              <span>Terminal AI coding assistant for task planning and code generation</span>
+            </div>
           </div>
         </div>
       </div>

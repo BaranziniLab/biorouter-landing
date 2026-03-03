@@ -71,6 +71,35 @@ Then visit `http://localhost:8080`.
 
 ---
 
+## Acknowledgements
+
+### The Baranzini Lab — [baranzinilab.ucsf.edu](https://baranzinilab.ucsf.edu/)
+
+- Gianmarco Bellucci
+- Sergio Baranzini
+
+### Bakar Computational Health Sciences Institute (BCHSI) — [bakarinstitute.ucsf.edu](https://bakarinstitute.ucsf.edu/)
+
+- Sharat Israni
+- Marina Sirota
+
+### UCSF Academic Research Services (ARS) — [ars.ucsf.edu](https://ars.ucsf.edu/)
+
+- William Santo
+- Evan Philps
+- Rick Larson
+- Oksana Gologorskaya
+
+### Open Source Inspirations
+
+- **[Goose](https://block.github.io/goose/)** — CLI/Desktop agent for full developer workflows (Block) — BioRouter's primary upstream foundation
+- **[Aider](https://aider.chat/)** — Open-source, Git-native CLI AI coding agent
+- **[Cline](https://github.com/cline/cline)** — Open-source interactive CLI coding agent
+- **[OpenCode](https://opencode.ai/)** — Open-source coding agent with multi-session and multi-provider support
+- **[ForgeCode](https://forgecode.dev/)** — Terminal AI coding assistant for task planning and code generation
+
+---
+
 ## Related
 
 - **BioRouter app repo:** <https://github.com/BaranziniLab/BioRouter>
