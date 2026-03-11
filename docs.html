@@ -136,7 +136,7 @@
             <h3>Connect an LLM Provider</h3>
             <p>BioRouter will guide you on first launch. Choose the option that fits your needs:</p>
             <ul>
-              <li><strong>UCSF users:</strong> Select <em>Azure OpenAI</em> (UCSF ChatGPT) or <em>Amazon Bedrock</em> (UCSF Anthropic). See the <a href="#" onclick="showDoc('ucsf')">UCSF Setup Guide</a>.</li>
+              <li><strong>UCSF users:</strong> Select <em>Azure OpenAI</em> (UCSF ChatGPT) — use endpoint <code>https://unified-api.ucsf.edu/general</code>, deployment <code>gpt-5-2025-08-07</code>, and your Versa API key. Or select <em>Amazon Bedrock</em> (UCSF Anthropic). Full details in the <a href="#" onclick="showDoc('ucsf')">UCSF Setup Guide</a>.</li>
               <li><strong>Commercial API:</strong> Enter your Anthropic, OpenAI, or Google API key.</li>
               <li><strong>Fully local:</strong> Install <a href="https://ollama.com/download" target="_blank">Ollama</a>, pull a model (<code>ollama pull qwen3</code>), select Ollama in BioRouter — no API key, no data leaves your machine.</li>
             </ul>
@@ -185,10 +185,25 @@
         <h2>Option B — Azure OpenAI (UCSF ChatGPT)</h2>
         <ol>
           <li>In BioRouter, go to <strong>Settings → Models → Azure OpenAI → Configure</strong></li>
-          <li>Sign in with your UCSF institutional account (MyAccess)</li>
-          <li>Select a model (e.g., <code>gpt-4o</code>) and click <strong>Launch</strong></li>
+          <li>Enter the endpoint and credentials below, then click <strong>Save</strong></li>
+          <li>Click <strong>Launch</strong> to start chatting</li>
         </ol>
-        <p>Default model: <code>gpt-4o</code>. Data stays within UCSF's Azure tenant.</p>
+
+        <p>Use the following values when configuring the Azure OpenAI provider:</p>
+        <table class="doc-table">
+          <thead><tr><th>Field</th><th>Environment Variable</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Endpoint</td><td><code>AZURE_OPENAI_ENDPOINT</code></td><td><code>https://unified-api.ucsf.edu/general</code></td></tr>
+            <tr><td>Deployment Name</td><td><code>AZURE_OPENAI_DEPLOYMENT_NAME</code></td><td><code>gpt-5-2025-08-07</code></td></tr>
+            <tr><td>API Version</td><td><code>AZURE_OPENAI_API_VERSION</code></td><td><code>2024-10-21</code></td></tr>
+            <tr><td>API Key</td><td><code>AZURE_OPENAI_API_KEY</code></td><td>Your UCSF Versa API key</td></tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <strong>Where to get your Versa API key:</strong> Visit <a href="https://ai.ucsf.edu/platforms-tools-and-resources/ucsf-versa" target="_blank">ai.ucsf.edu → UCSF Versa</a> and sign in with your UCSF MyAccess credentials to generate or retrieve your API key.
+        </div>
+        <p>Data stays within UCSF's Azure tenant — safe for institution-approved use cases.</p>
 
         <h2>Option C — Amazon Bedrock (UCSF-hosted Anthropic)</h2>
         <ol>
@@ -224,7 +239,7 @@
         <table class="doc-table">
           <thead><tr><th>Provider</th><th>Access</th><th>Default Model</th></tr></thead>
           <tbody>
-            <tr><td><strong>Azure OpenAI</strong> (UCSF ChatGPT)</td><td>UCSF institutional account (SSO)</td><td>gpt-4o</td></tr>
+            <tr><td><strong>Azure OpenAI</strong> (UCSF ChatGPT)</td><td>UCSF Versa API key · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>gpt-5-2025-08-07</code></td></tr>
             <tr><td><strong>Amazon Bedrock</strong> (UCSF Anthropic)</td><td>UCSF AWS SSO profile</td><td>Claude Sonnet 4.5</td></tr>
           </tbody>
         </table>
