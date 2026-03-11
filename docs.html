@@ -177,19 +177,15 @@
         <h1>UCSF Setup Guide</h1>
         <p class="doc-intro">BioRouter is built for UCSF researchers. Use your institutional AI access for secure, compliant workflows with enterprise-managed models.</p>
 
-        <h2>Option A — UCSF Versa (Recommended)</h2>
-        <p>UCSF's institutional AI platform. For the most up-to-date access and configuration instructions, visit:</p>
+        <h2>Option A — UCSF Versa / Azure OpenAI (Recommended)</h2>
+        <p>UCSF's institutional AI platform, accessed via Azure OpenAI. Get your API key at:</p>
         <p><a href="https://ai.ucsf.edu/platforms-tools-and-resources/ucsf-versa" target="_blank">ai.ucsf.edu/platforms-tools-and-resources/ucsf-versa</a></p>
-        <p>In BioRouter, select <strong>Azure OpenAI</strong> as your provider — your UCSF account handles authentication automatically via institutional SSO.</p>
-
-        <h2>Option B — Azure OpenAI (UCSF ChatGPT)</h2>
         <ol>
           <li>In BioRouter, go to <strong>Settings → Models → Azure OpenAI → Configure</strong></li>
           <li>Enter the endpoint and credentials below, then click <strong>Save</strong></li>
           <li>Click <strong>Launch</strong> to start chatting</li>
         </ol>
 
-        <p>Use the following values when configuring the Azure OpenAI provider:</p>
         <table class="doc-table">
           <thead><tr><th>Field</th><th>Environment Variable</th><th>Value</th></tr></thead>
           <tbody>
@@ -201,11 +197,11 @@
         </table>
 
         <div class="alert alert-info">
-          <strong>Where to get your Versa API key:</strong> Visit <a href="https://ai.ucsf.edu/platforms-tools-and-resources/ucsf-versa" target="_blank">ai.ucsf.edu → UCSF Versa</a> and sign in with your UCSF MyAccess credentials to generate or retrieve your API key.
+          <strong>Where to get your Versa API key:</strong> Sign in with your UCSF MyAccess credentials at the link above to generate or retrieve your API key.
         </div>
         <p>Data stays within UCSF's Azure tenant — safe for institution-approved use cases.</p>
 
-        <h2>Option C — Amazon Bedrock (UCSF-hosted Anthropic)</h2>
+        <h2>Option B — Amazon Bedrock (UCSF-hosted Anthropic)</h2>
         <ol>
           <li>Log in via UCSF AWS SSO: <code>aws sso login --profile &lt;your-profile&gt;</code></li>
           <li>In BioRouter: <strong>Settings → Models → Amazon Bedrock → Configure</strong></li>
@@ -214,7 +210,7 @@
         </ol>
         <p>Default model: <code>claude-sonnet-4-5</code>. Data stays within UCSF's AWS environment.</p>
 
-        <h2>Option D — Local (Ollama, Air-gapped)</h2>
+        <h2>Option C — Local (Ollama, Air-gapped)</h2>
         <p>For maximum privacy — nothing ever leaves your device:</p>
         <ol>
           <li>Install Ollama from <a href="https://ollama.com/download" target="_blank">ollama.com/download</a></li>
