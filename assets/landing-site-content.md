@@ -5,7 +5,7 @@ Landing site for UCSF BioRouter. Design: Material Design with OpenAI aesthetics 
 
 **Color palette:** UCSF teal (#18A3AC), UCSF navy (#052049), dark background (#0a0a0a)
 **Font:** Inter (body), JetBrains Mono (code)
-**Version:** v1.20.0 (February 2026)
+**Version:** v1.60.0 (April 2026)
 
 ---
 
