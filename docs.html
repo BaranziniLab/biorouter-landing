@@ -188,7 +188,7 @@
           <tbody>
             <tr><td>Endpoint</td><td><code>AZURE_OPENAI_ENDPOINT</code></td><td><code>https://unified-api.ucsf.edu/general</code></td></tr>
             <tr><td>Deployment Name</td><td><code>AZURE_OPENAI_DEPLOYMENT_NAME</code></td><td><code>gpt-5-2025-08-07</code></td></tr>
-            <tr><td>API Version</td><td><code>AZURE_OPENAI_API_VERSION</code></td><td><code>2024-10-21</code></td></tr>
+            <tr><td>API Version</td><td><code>AZURE_OPENAI_API_VERSION</code></td><td><code>2025-01-01-preview</code></td></tr>
             <tr><td>API Key</td><td><code>AZURE_OPENAI_API_KEY</code></td><td>Your UCSF Versa API key</td></tr>
           </tbody>
         </table>
@@ -198,14 +198,120 @@
         </div>
         <p>Data stays within UCSF's Azure tenant — safe for institution-approved use cases.</p>
 
-        <h2>Option B — Amazon Bedrock (UCSF-hosted Anthropic)</h2>
+        <h2>Option B — Amazon Bedrock (UCSF MuleSoft Proxy)</h2>
+        <p>UCSF provides access to Anthropic Claude models via Amazon Bedrock, routed through the same UCSF MuleSoft gateway used by UCSF Versa. Your data never leaves UCSF's infrastructure.</p>
+
+        <h3>Step 1 — Obtain Your Credentials</h3>
+        <p>The UCSF Bedrock proxy uses a static AWS Access Key + Secret Key pair — these are <em>not</em> personal AWS SSO credentials. Obtain them from your lab's BioRouter onboarding document or contact the Baranzini Lab / UCSF Research IT for access. You will receive four values:</p>
+
+        <table class="doc-table">
+          <thead><tr><th>Credential</th><th>Environment Variable</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>AWS Access Key ID</td><td><code>AWS_ACCESS_KEY_ID</code></td><td>32-character hex string provided by UCSF</td></tr>
+            <tr><td>AWS Secret Access Key</td><td><code>AWS_SECRET_ACCESS_KEY</code></td><td>32-character mixed string provided by UCSF</td></tr>
+            <tr><td>Region</td><td><code>AWS_REGION</code></td><td><code>us-west-2</code></td></tr>
+            <tr><td>Proxy Endpoint</td><td><code>AWS_ENDPOINT_URL_BEDROCK</code></td><td><code>https://unified-api.ucsf.edu/general/awsai</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <strong>Why a custom endpoint?</strong> UCSF routes Bedrock calls through its own MuleSoft proxy (<code>unified-api.ucsf.edu/general/awsai</code>) rather than direct to AWS. BioRouter automatically translates <code>AWS_ENDPOINT_URL_BEDROCK</code> to the correct SDK variable — you don't need to worry about that distinction.
+        </div>
+
+        <h3>Step 2 — Configure Credentials</h3>
+        <p>macOS GUI apps (launched from Finder, Spotlight, or Dock) do not inherit your shell's environment variables. For BioRouter to work reliably you need to configure credentials in <strong>all three</strong> of the following places. The quickest way is the setup script:</p>
+
+        <h4>Quick Setup — Run the Script</h4>
+        <p>Create a file called <code>setup_bedrock.sh</code>, paste the block below (filling in your credentials), and run it once:</p>
+        <pre>#!/bin/bash
+AWS_ACCESS_KEY_ID="&lt;your-access-key-id&gt;"
+AWS_SECRET_ACCESS_KEY="&lt;your-secret-access-key&gt;"
+AWS_REGION="us-west-2"
+BEDROCK_ENDPOINT="https://unified-api.ucsf.edu/general/awsai"
+
+# 1. Shell env — picked up by Terminal / CLI
+grep -qF "AWS_ACCESS_KEY_ID" ~/.zshrc || cat &gt;&gt; ~/.zshrc &lt;&lt;EOF
+
+export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+export AWS_REGION=$AWS_REGION
+export AWS_ENDPOINT_URL_BEDROCK=$BEDROCK_ENDPOINT
+EOF
+
+# 2. ~/.aws files — picked up by GUI apps that skip the shell
+mkdir -p ~/.aws
+cat &gt; ~/.aws/credentials &lt;&lt;EOF
+[default]
+aws_access_key_id = $AWS_ACCESS_KEY_ID
+aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+EOF
+cat &gt; ~/.aws/config &lt;&lt;EOF
+[default]
+region = $AWS_REGION
+EOF
+
+# 3. launchctl — injects vars into macOS at OS level for GUI apps
+launchctl setenv AWS_ACCESS_KEY_ID "$AWS_ACCESS_KEY_ID"
+launchctl setenv AWS_SECRET_ACCESS_KEY "$AWS_SECRET_ACCESS_KEY"
+launchctl setenv AWS_REGION "$AWS_REGION"
+launchctl setenv AWS_ENDPOINT_URL_BEDROCK "$BEDROCK_ENDPOINT"
+
+source ~/.zshrc
+echo "Done. Restart BioRouter for changes to take effect."</pre>
+        <pre>chmod +x setup_bedrock.sh &amp;&amp; ./setup_bedrock.sh</pre>
+
+        <h4>Why Three Locations?</h4>
+        <table class="doc-table">
+          <thead><tr><th>Location</th><th>What it covers</th></tr></thead>
+          <tbody>
+            <tr><td><code>~/.zshrc</code> exports</td><td>Terminal sessions and CLI tools that inherit the shell environment</td></tr>
+            <tr><td><code>~/.aws/credentials</code> + <code>config</code></td><td>The AWS SDK's file-based credential chain — used by apps that don't inherit shell env vars</td></tr>
+            <tr><td><code>launchctl setenv</code></td><td>Injects vars at the macOS process level — the only reliable way to pass env vars to apps launched from Spotlight, Dock, or Finder</td></tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <strong>Linux users:</strong> Skip the <code>launchctl</code> step. Add the exports to <code>~/.bashrc</code> or <code>~/.profile</code> and write the <code>~/.aws/</code> files — that covers both CLI and GUI apps.
+        </div>
+        <div class="alert alert-info">
+          <strong>Windows users:</strong> Set the four values as System Environment Variables via <em>System Properties → Environment Variables</em>. No <code>~/.aws</code> or <code>launchctl</code> steps needed.
+        </div>
+
+        <h3>Step 3 — Configure BioRouter</h3>
+        <p>After running the setup script, open BioRouter and point it at the Bedrock provider:</p>
         <ol>
-          <li>Log in via UCSF AWS SSO: <code>aws sso login --profile &lt;your-profile&gt;</code></li>
-          <li>In BioRouter: <strong>Settings → Models → Amazon Bedrock → Configure</strong></li>
-          <li>Set <code>AWS_PROFILE</code> and <code>AWS_REGION</code> when prompted</li>
-          <li>Select Claude Sonnet or another Bedrock-hosted model</li>
+          <li>Go to <strong>Settings → Models → Amazon Bedrock → Configure</strong></li>
+          <li>Confirm the four environment variables are visible — BioRouter reads them automatically</li>
+          <li>Set <strong>Model</strong> to <code>us.anthropic.claude-sonnet-4-6</code> (default)</li>
+          <li>Click <strong>Launch</strong> — send a test message to verify</li>
         </ol>
-        <p>Default model: <code>claude-sonnet-4-5</code>. Data stays within UCSF's AWS environment.</p>
+
+        <div class="alert alert-info">
+          <strong>Tip:</strong> If BioRouter shows an auth error after setup, quit it fully (⌘Q on macOS) and relaunch — the <code>launchctl</code> vars only take effect for processes started <em>after</em> the script runs.
+        </div>
+
+        <h3>Available Models</h3>
+        <table class="doc-table">
+          <thead><tr><th>Model</th><th>Model ID</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Claude Sonnet 4.6</strong> ⭐ Default</td><td><code>us.anthropic.claude-sonnet-4-6</code></td><td>Best balance of speed and capability</td></tr>
+            <tr><td>Claude Sonnet 4.0</td><td><code>us.anthropic.claude-sonnet-4-20250514-v1:0</code></td><td>Previous generation Sonnet</td></tr>
+            <tr><td>Claude Opus 4.5</td><td><code>us.anthropic.claude-opus-4-5-20251101-v1:0</code></td><td>Most capable, slower</td></tr>
+            <tr><td>Claude Opus 4.1</td><td><code>us.anthropic.claude-opus-4-1-20250805-v1:0</code></td><td>Previous Opus generation</td></tr>
+          </tbody>
+        </table>
+        <p>Only models permitted by UCSF's IAM policy are listed — selecting others will result in an authentication error.</p>
+
+        <h3>Troubleshooting</h3>
+        <table class="doc-table">
+          <thead><tr><th>Error</th><th>Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>"The security token included in the request is invalid"</td><td>BioRouter is hitting real AWS (not the UCSF proxy) — endpoint var missing</td><td>Re-run the setup script; quit and relaunch BioRouter</td></tr>
+            <tr><td>"invalid model identifier"</td><td>Model ID missing <code>us.</code> prefix or <code>-v1:0</code> suffix</td><td>Use a model ID exactly as listed in the table above</td></tr>
+            <tr><td>Auth error in GUI, CLI works fine</td><td><code>launchctl</code> vars not set — GUI app doesn't inherit shell env</td><td>Re-run the script, then fully quit and relaunch BioRouter</td></tr>
+            <tr><td>"AccessDeniedException" on a specific model</td><td>Model not permitted by UCSF IAM policy</td><td>Switch to one of the four confirmed models above</td></tr>
+          </tbody>
+        </table>
 
         <h2>Option C — Local (Ollama, Air-gapped)</h2>
         <p>For maximum privacy — nothing ever leaves your device:</p>
@@ -233,7 +339,7 @@
           <thead><tr><th>Provider</th><th>Access</th><th>Default Model</th></tr></thead>
           <tbody>
             <tr><td><strong>Azure OpenAI</strong> (UCSF ChatGPT)</td><td>UCSF Versa API key · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>gpt-5-2025-08-07</code></td></tr>
-            <tr><td><strong>Amazon Bedrock</strong> (UCSF Anthropic)</td><td>UCSF AWS SSO profile</td><td>Claude Sonnet 4.5</td></tr>
+            <tr><td><strong>Amazon Bedrock</strong> (UCSF Anthropic)</td><td>UCSF proxy credentials · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>us.anthropic.claude-sonnet-4-6</code></td></tr>
           </tbody>
         </table>
 
