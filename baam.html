@@ -3,215 +3,261 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UCSF BioRouter — BAAM Agent Marketplace</title>
+  <title>UCSF BioRouter — BAAM</title>
   <link rel="icon" href="icon.png" type="image/png" />
   <link rel="stylesheet" href="shared.css" />
   <style>
     /* ── Hero ─────────────────────────────────────────────────────── */
     .baam-hero {
-      padding: 80px 24px 52px;
+      padding: 72px 24px 44px;
       text-align: center;
       background: linear-gradient(180deg, rgba(207,109,71,0.06) 0%, transparent 100%);
       border-bottom: 1px solid var(--border);
     }
-    .baam-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-bottom: 20px;
-    }
+    .baam-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; }
     .baam-acronym {
       font-size: 11px; font-weight: 700; letter-spacing: 3px;
       text-transform: uppercase; color: var(--accent);
       background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.3);
       padding: 5px 14px; border-radius: 8px;
     }
-    .baam-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 12px; }
-    .baam-hero p { color: var(--text-2); font-size: 16px; max-width: 560px; margin: 0 auto 32px; line-height: 1.65; }
-    .search-wrap {
-      max-width: 480px; margin: 0 auto;
-      position: relative;
-    }
-    .search-icon {
-      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-      width: 16px; height: 16px; color: var(--text-3); pointer-events: none;
-    }
+    .baam-hero h1 { font-size: clamp(24px, 3.5vw, 40px); font-weight: 700; letter-spacing: -1.2px; margin-bottom: 10px; }
+    .baam-hero p { color: var(--text-2); font-size: 15px; max-width: 540px; margin: 0 auto 28px; line-height: 1.65; }
+    .search-wrap { max-width: 480px; margin: 0 auto; position: relative; }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-3); pointer-events: none; }
     #agent-search {
-      width: 100%; padding: 13px 16px 13px 44px;
+      width: 100%; padding: 12px 16px 12px 44px;
       background: var(--bg-2); border: 1px solid var(--border-2);
       border-radius: var(--radius-lg); color: var(--text);
-      font-size: 15px; font-family: inherit;
+      font-size: 14px; font-family: inherit;
       outline: none; transition: var(--transition);
     }
     #agent-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(207,109,71,0.12); }
     #agent-search::placeholder { color: var(--text-3); }
 
-    /* ── Agent Grid ───────────────────────────────────────────────── */
+    /* ── Section wrappers ─────────────────────────────────────────── */
+    .baam-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px 24px 48px;
+    }
+    .baam-section + .baam-section { border-top: 1px solid var(--border); }
+    .baam-section-header {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .baam-section-header h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+    .baam-section-header .count {
+      font-size: 11px; font-weight: 600; color: var(--text-3);
+      background: var(--bg-3); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 100px;
+    }
+    .baam-section-header a.section-link {
+      margin-left: auto; font-size: 12px; color: var(--accent);
+      text-decoration: none; font-weight: 600;
+    }
+    .baam-section-header a.section-link:hover { text-decoration: underline; }
+    .section-lead { font-size: 13px; color: var(--text-2); margin-bottom: 18px; line-height: 1.65; }
+
+    /* ── .brxt Extension cards ────────────────────────────────────── */
+    .ext-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+    .ext-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 22px 24px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .ext-card:hover { border-color: rgba(207,109,71,0.38); background: var(--bg-3); }
+    .ext-card-header { display: flex; align-items: flex-start; gap: 12px; }
+    .ext-icon-wrap {
+      width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.22);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .ext-meta { flex: 1; min-width: 0; }
+    .ext-meta h3 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .ext-meta .ext-org { font-size: 11px; color: var(--text-3); font-weight: 500; }
+    .ext-gh-link {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-2); text-decoration: none; transition: var(--transition);
+    }
+    .ext-gh-link:hover { color: var(--text); border-color: var(--accent); }
+    .ext-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; flex: 1; }
+    .ext-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .ext-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    /* ── Agent cards (MCP) ────────────────────────────────────────── */
     .agents-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-      padding: 48px 24px 20px;
-      max-width: 1100px; margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
     }
     .agent-card {
       background: var(--bg-2); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: 28px;
-      display: flex; flex-direction: column; gap: 16px;
-      transition: var(--transition);
+      border-radius: var(--radius-xl); padding: 24px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: border-color var(--transition), background var(--transition);
     }
-    .agent-card:hover {
-      border-color: var(--accent); background: var(--bg-3);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(207,109,71,0.10);
-    }
-    .agent-card-header {
-      display: flex; align-items: flex-start; gap: 12px;
-    }
+    .agent-card:hover { border-color: var(--accent); background: var(--bg-3); }
+    .agent-card-header { display: flex; align-items: flex-start; gap: 12px; }
     .agent-icon-wrap {
-      width: 46px; height: 46px; border-radius: 12px;
+      width: 44px; height: 44px; border-radius: 11px;
       background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.25);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; flex-shrink: 0;
+      font-size: 22px; flex-shrink: 0;
     }
     .agent-meta { flex: 1; min-width: 0; }
-    .agent-meta h3 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
-    .agent-org { font-size: 12px; color: var(--text-3); font-weight: 500; }
+    .agent-meta h3 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+    .agent-org { font-size: 11px; color: var(--text-3); font-weight: 500; }
     .agent-gh-link {
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      width: 34px; height: 34px; border-radius: 9px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 9px;
       background: var(--bg-3); border: 1px solid var(--border);
-      color: var(--text-2); text-decoration: none;
-      transition: var(--transition);
+      color: var(--text-2); text-decoration: none; transition: var(--transition);
     }
     .agent-gh-link:hover { color: var(--text); border-color: var(--accent); }
-    .agent-desc { font-size: 14px; color: var(--text-2); line-height: 1.65; flex: 1; }
+    .agent-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; flex: 1; }
     .agent-cmd-wrap {
       background: var(--bg-3); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 10px 14px;
+      border-radius: var(--radius); padding: 9px 13px;
       display: flex; align-items: center; gap: 10px;
     }
     .agent-cmd {
       font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
-      font-size: 12px; color: var(--accent);
+      font-size: 11.5px; color: var(--accent);
       flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .copy-btn {
       flex-shrink: 0; background: none; border: none;
-      color: var(--text-3); cursor: pointer;
-      padding: 3px; border-radius: 4px;
-      transition: var(--transition);
-      display: flex; align-items: center;
+      color: var(--text-3); cursor: pointer; padding: 3px; border-radius: 4px;
+      transition: var(--transition); display: flex; align-items: center;
     }
     .copy-btn:hover { color: var(--accent); }
     .copy-btn.copied { color: #5bbe5e; }
     .agent-tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .no-results {
       grid-column: 1 / -1; text-align: center;
-      padding: 60px 24px; color: var(--text-3); font-size: 15px;
-      display: none;
+      padding: 48px 24px; color: var(--text-3); font-size: 14px; display: none;
     }
 
-    /* ── Recipes Section ──────────────────────────────────────────── */
-    .recipes-section {
-      max-width: 1100px; margin: 0 auto;
-      padding: 0 24px 20px;
+    /* ── Workflow cards ───────────────────────────────────────────── */
+    .wf-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 22px 24px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color var(--transition), background var(--transition);
     }
-    .recipes-section-header {
-      text-align: center; margin-bottom: 8px;
+    .wf-card:hover { border-color: rgba(207,109,71,0.38); background: var(--bg-3); }
+    .wf-card-header { display: flex; align-items: flex-start; gap: 12px; }
+    .wf-icon-wrap {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.22);
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
     }
-    .recipes-section-header .eyebrow {
-      font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    .wf-meta h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .wf-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .wf-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+    .wf-yaml-toggle {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--bg-3); border: 1px solid var(--border-2);
+      border-radius: 7px; padding: 7px 12px;
+      font-size: 12px; font-weight: 500; color: var(--text-2);
+      cursor: pointer; transition: var(--transition); font-family: inherit;
     }
-    .recipes-section-header h2 {
-      font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.5px;
+    .wf-yaml-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .toggle-icon { transition: transform 0.18s ease; display: inline-block; }
+    .wf-yaml-toggle.open .toggle-icon { transform: rotate(90deg); }
+    .wf-yaml-pre {
+      display: none; background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px;
+      font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
+      font-size: 11.5px; color: #443c2a; overflow-x: auto; line-height: 1.7;
     }
-    .recipes-section-desc {
-      text-align: center; font-size: 14px; color: var(--text-3); margin-bottom: 20px;
+    .wf-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    /* ── Skill cards ──────────────────────────────────────────────── */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 13px;
     }
+    .skill-card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 11px;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .skill-card:hover { border-color: rgba(207,109,71,0.35); background: var(--bg-3); }
+    .skill-card-header { display: flex; align-items: flex-start; gap: 10px; }
+    .skill-icon-wrap {
+      width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.22);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .skill-meta h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 2px; }
+    .skill-type { font-size: 10.5px; color: var(--text-3); font-weight: 600; letter-spacing: 0.2px; }
+    .skill-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.65; flex: 1; }
+    .skill-footer { display: flex; align-items: center; justify-content: space-between; gap: 7px; flex-wrap: wrap; }
+    .skill-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .skill-dl-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 7px;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.28);
+      color: var(--accent); text-decoration: none;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+      transition: var(--transition);
+    }
+    .skill-dl-btn:hover { background: var(--accent); color: #fff; }
+
+    /* ── Install note ─────────────────────────────────────────────── */
+    .install-note {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius); padding: 13px 17px;
+      font-size: 13px; color: var(--text-2); line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .install-note strong { color: var(--text); }
+
+    /* ── Federation banner ────────────────────────────────────────── */
     .federation-banner {
       background: rgba(5,32,73,0.04); border: 1px solid rgba(5,32,73,0.12);
       border-left: 3px solid #052049;
-      border-radius: var(--radius); padding: 13px 18px;
-      margin-bottom: 20px; font-size: 13px; color: var(--text-2); line-height: 1.65;
+      border-radius: var(--radius); padding: 12px 17px;
+      margin-bottom: 18px; font-size: 13px; color: var(--text-2); line-height: 1.65;
     }
-    .federation-banner strong { color: #052049; font-weight: 700; }
-    .recipe-card {
-      background: var(--bg-2); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: 28px;
-      display: flex; flex-direction: column; gap: 16px;
-      transition: var(--transition);
-    }
-    .recipe-card:hover { border-color: var(--accent); background: var(--bg-3); box-shadow: 0 8px 32px rgba(207,109,71,0.08); }
-    .recipe-card-header { display: flex; align-items: flex-start; gap: 14px; }
-    .recipe-icon-wrap {
-      width: 46px; height: 46px; border-radius: 12px;
-      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; flex-shrink: 0;
-    }
-    .recipe-meta { flex: 1; }
-    .recipe-meta h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; text-align: left; color: var(--text); }
-    .recipe-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .recipe-desc { font-size: 14px; color: var(--text-2); line-height: 1.65; }
-    .recipe-yaml-toggle {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--bg-3); border: 1px solid var(--border-2);
-      border-radius: 8px; padding: 8px 14px;
-      font-size: 13px; font-weight: 500; color: var(--text-2);
-      cursor: pointer; transition: var(--transition); font-family: inherit;
-    }
-    .recipe-yaml-toggle:hover { color: var(--accent); border-color: var(--accent); }
-    .toggle-icon { transition: transform 0.2s ease; display: inline-block; }
-    .recipe-yaml-toggle.open .toggle-icon { transform: rotate(90deg); }
-    .recipe-yaml-pre {
-      display: none; background: var(--bg-3); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px 20px; margin-top: 10px;
-      font-family: 'Menlo', 'Consolas', 'Courier New', monospace; font-size: 12px; color: #443c2a;
-      overflow-x: auto; line-height: 1.7;
-    }
-    .recipe-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .federation-banner strong { color: #052049; }
 
-    /* ── How to install / execute ─────────────────────────────────── */
-    .install-guide {
-      max-width: 1100px; margin: 0 auto;
-      padding: 0 24px 40px;
+    /* ── How-to steps (compact) ───────────────────────────────────── */
+    .how-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px; margin-top: 32px;
     }
-    .install-guide h3 {
-      font-size: 16px; font-weight: 600; color: var(--text-2);
-      margin-bottom: 16px; text-align: center;
-    }
-    .install-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-    .install-step {
+    .how-step {
       background: var(--bg-2); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 20px;
-      display: flex; gap: 14px; align-items: flex-start;
+      border-radius: var(--radius-lg); padding: 16px 18px;
+      display: flex; gap: 12px; align-items: flex-start;
     }
-    .install-step-num {
-      flex-shrink: 0; width: 28px; height: 28px;
-      border-radius: 50%; background: var(--accent-dim);
-      border: 1px solid rgba(207,109,71,0.3);
+    .how-num {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent-dim); border: 1px solid rgba(207,109,71,0.3);
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: var(--accent);
+      font-size: 12px; font-weight: 700; color: var(--accent);
     }
-    .install-step-text h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-    .install-step-text p { font-size: 13px; color: var(--text-2); line-height: 1.5; }
-    .install-step-text code { font-size: 12px; }
-    .install-step-text a { color: var(--accent); text-decoration: none; }
-    .install-step-text a:hover { text-decoration: underline; }
-
-    /* ── CTA ──────────────────────────────────────────────────────── */
-    .baam-cta {
-      text-align: center; padding: 20px 24px 64px;
-    }
-    .baam-cta p { color: var(--text-3); font-size: 14px; margin-bottom: 14px; }
+    .how-text h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .how-text p { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+    .how-text code { font-size: 11px; }
+    .how-text a { color: var(--accent); text-decoration: none; }
+    .how-text a:hover { text-decoration: underline; }
 
     @media (max-width: 480px) {
-      .agents-grid { grid-template-columns: 1fr; padding: 32px 16px 20px; }
+      .ext-grid, .agents-grid, .skill-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -246,166 +292,220 @@
   <a href="docs.html">Documentation</a>
   <a href="baam.html" class="active">BAAM</a>
   <a href="about.html">About</a>
+  <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" style="margin-top:8px;">GitHub →</a>
 </div>
 
 <main class="page">
+<div class="accent-bar"></div>
 
-  <!-- Hero -->
+  <!-- ── HERO ──────────────────────────────────────────────────────── -->
   <div class="baam-hero">
     <div class="baam-badge">
       <span class="baam-acronym">BAAM</span>
     </div>
     <h1>BioRouter AI Agent Marketplace</h1>
-    <p>A curated, quality-controlled ecosystem of AI agents for biomedical research. Install any agent directly into BioRouter via the Model Context Protocol.</p>
+    <p>One-click downloads for UCSF agent extensions, community workflows, and reusable skills — plus every MCP agent available for BioRouter.</p>
     <div class="search-wrap">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="agent-search" placeholder="Search agents by name, capability, or keyword…" oninput="filterAgents()" />
     </div>
   </div>
 
-  <!-- Agent grid -->
-  <div class="agents-grid" id="agents-grid">
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: Agent Extensions (.brxt)                           -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="baam-section">
+    <div class="baam-section-header">
+      <h2>🔌 UCSF Agent Extensions</h2>
+      <span class="count">.brxt · One-click install</span>
+    </div>
+    <p class="section-lead">Download a <code>.brxt</code> bundle and drag it into BioRouter → Extensions → Add Extension. BioRouter installs the virtual environment, configures the tool, and adds it to your session automatically — no terminal required.</p>
 
-    <!-- UCSF OMOP Agent -->
-    <div class="agent-card" data-tags="ucsf omop clinical sql ehr electronic health records database">
-      <div class="agent-card-header">
-        <div class="agent-icon-wrap">🏥</div>
-        <div class="agent-meta">
-          <h3>UCSF OMOP Agent</h3>
-          <div class="agent-org">BaranziniLab · UCSF</div>
+    <div class="ext-grid">
+
+      <!-- CDW Agent -->
+      <div class="ext-card">
+        <div class="ext-card-header">
+          <div class="ext-icon-wrap">🏥</div>
+          <div class="ext-meta">
+            <h3>CDW Agent</h3>
+            <div class="ext-org">BaranziniLab · UCSF · v0.4.3</div>
+          </div>
+          <a href="https://github.com/BaranziniLab/CDWAgent" target="_blank" class="ext-gh-link" title="View on GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
         </div>
-        <a href="https://github.com/BaranziniLab/UCSFOMOPAgent" target="_blank" class="agent-gh-link" title="View on GitHub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-        </a>
-      </div>
-      <p class="agent-desc">An MCP server enabling AI-driven SQL queries on the UCSF OMOP de-identified clinical database — read-only access to standardized electronic health records organized under the OMOP Common Data Model. Enables natural language querying of real-world clinical data.</p>
-      <div class="agent-cmd-wrap">
-        <span class="agent-cmd" title="uvx --from git+https://github.com/BaranziniLab/UCSFOMOPAgent ucsfomopagent">uvx --from git+https://github.com/BaranziniLab/UCSFOMOPAgent ucsfomopagent</span>
-        <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/UCSFOMOPAgent ucsfomopagent')" title="Copy command">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
-      <div class="agent-tags">
-        <span class="tag ucsf">UCSF</span>
-        <span class="tag mcp">MCP</span>
-        <span class="tag">Clinical</span>
-        <span class="tag">OMOP</span>
-        <span class="tag">EHR</span>
-      </div>
-    </div>
-
-    <!-- SPOKE Agent -->
-    <div class="agent-card" data-tags="spoke knowledge graph biomedical cypher neo4j disease gene drug pathway biology">
-      <div class="agent-card-header">
-        <div class="agent-icon-wrap">🕸️</div>
-        <div class="agent-meta">
-          <h3>SPOKE Agent</h3>
-          <div class="agent-org">BaranziniLab · UCSF</div>
+        <p class="ext-desc">AI-driven SQL access to the UCSF Clinical Data Warehouse — natural language queries with read-only safety, schema discovery, and structured result return. Requires UCSF network credentials (CAMPUS\username + password).</p>
+        <div class="ext-footer">
+          <div class="ext-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">CDW</span><span class="tag">Clinical</span></div>
+          <a href="https://github.com/BaranziniLab/CDWAgent/releases/download/v0.4.3-brxt/cdwagent.brxt" class="brxt-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            cdwagent.brxt
+          </a>
         </div>
-        <a href="https://github.com/BaranziniLab/SPOKEAgent" target="_blank" class="agent-gh-link" title="View on GitHub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-        </a>
       </div>
-      <p class="agent-desc">An MCP server for querying the SPOKE biomedical knowledge graph — a large-scale graph database linking diseases, genes, proteins, drugs, and biological pathways. Execute Cypher queries for rapid biomedical knowledge inference and literature-grounded hypothesis generation.</p>
-      <p class="agent-desc" style="margin-top:8px; font-size:13px; color:var(--text-2);">⚠️ Additional environment variables may be required to run this agent. See <a href="https://wiki.library.ucsf.edu/spaces/~Wanjun.Gu@ucsf.edu/pages/755904655/SPOKEAgent+Credentials" target="_blank" style="color:var(--accent); text-decoration:underline;">SPOKEAgent Credentials</a> for details (UCSF login required).</p>
-      <div class="agent-cmd-wrap">
-        <span class="agent-cmd" title="uvx --from git+https://github.com/BaranziniLab/SPOKEAgent spokeagent">uvx --from git+https://github.com/BaranziniLab/SPOKEAgent spokeagent</span>
-        <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/SPOKEAgent spokeagent')" title="Copy command">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
-      <div class="agent-tags">
-        <span class="tag ucsf">UCSF</span>
-        <span class="tag mcp">MCP</span>
-        <span class="tag">Knowledge Graph</span>
-        <span class="tag">SPOKE</span>
-      </div>
-    </div>
 
-    <!-- MedCP -->
-    <div class="agent-card" data-tags="medcp medical clinical ehr records ai assistant health local private">
-      <div class="agent-card-header">
-        <div class="agent-icon-wrap">⚕️</div>
-        <div class="agent-meta">
-          <h3>MedCP</h3>
-          <div class="agent-org">BaranziniLab · UCSF</div>
+      <!-- UCSF OMOP Agent -->
+      <div class="ext-card">
+        <div class="ext-card-header">
+          <div class="ext-icon-wrap">📋</div>
+          <div class="ext-meta">
+            <h3>UCSF OMOP Agent</h3>
+            <div class="ext-org">BaranziniLab · UCSF · v0.1.0</div>
+          </div>
+          <a href="https://github.com/BaranziniLab/UCSFOMOPAgent" target="_blank" class="ext-gh-link" title="View on GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
         </div>
-        <a href="https://github.com/BaranziniLab/MedCP" target="_blank" class="agent-gh-link" title="View on GitHub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-        </a>
-      </div>
-      <p class="agent-desc">Medical Model Context Protocol — transforms BioRouter into a medical AI assistant by providing secure, local access to electronic health records and biomedical knowledge graphs. Process sensitive health data and deliver clinical insights without transmitting data to the cloud.</p>
-      <div class="agent-cmd-wrap">
-        <span class="agent-cmd" title="uvx --from git+https://github.com/BaranziniLab/MedCP medcp">uvx --from git+https://github.com/BaranziniLab/MedCP medcp</span>
-        <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/MedCP medcp')" title="Copy command">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
-      <div class="agent-tags">
-        <span class="tag ucsf">UCSF</span>
-        <span class="tag mcp">MCP</span>
-        <span class="tag">Clinical AI</span>
-        <span class="tag">Local</span>
-      </div>
-    </div>
-
-    <!-- Playwright MCP -->
-    <div class="agent-card" data-tags="playwright browser web automation scraping testing accessibility ui navigation microsoft">
-      <div class="agent-card-header">
-        <div class="agent-icon-wrap">🎭</div>
-        <div class="agent-meta">
-          <h3>Playwright MCP</h3>
-          <div class="agent-org">Microsoft</div>
+        <p class="ext-desc">Natural language SQL on the UCSF OMOP de-identified clinical database — read-only access to standardized EHR data organized under the OMOP Common Data Model. Requires UCSF credentials.</p>
+        <div class="ext-footer">
+          <div class="ext-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">OMOP</span><span class="tag">EHR</span></div>
+          <a href="https://github.com/BaranziniLab/UCSFOMOPAgent/releases/download/v0.1.0-brxt/ucsfomopagent.brxt" class="brxt-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            ucsfomopagent.brxt
+          </a>
         </div>
-        <a href="https://github.com/microsoft/playwright-mcp" target="_blank" class="agent-gh-link" title="View on GitHub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-        </a>
       </div>
-      <p class="agent-desc">An MCP server that gives BioRouter full browser automation capabilities via Playwright. Navigate websites, extract data, fill forms, and automate web-based research workflows using structured accessibility snapshots — no vision model required.</p>
-      <div class="agent-cmd-wrap">
-        <span class="agent-cmd" title="npx @playwright/mcp@latest">npx @playwright/mcp@latest</span>
-        <button class="copy-btn" onclick="copyCmd(this, 'npx @playwright/mcp@latest')" title="Copy command">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
+
+      <!-- SPOKE Agent -->
+      <div class="ext-card">
+        <div class="ext-card-header">
+          <div class="ext-icon-wrap">🕸️</div>
+          <div class="ext-meta">
+            <h3>SPOKE Agent</h3>
+            <div class="ext-org">BaranziniLab · UCSF · v0.2.0</div>
+          </div>
+          <a href="https://github.com/BaranziniLab/SPOKEAgent" target="_blank" class="ext-gh-link" title="View on GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
+        </div>
+        <p class="ext-desc">Cypher queries on the SPOKE biomedical knowledge graph linking diseases, genes, proteins, drugs, and pathways. Includes a bundled <code>spoke-knowledge-graph</code> skill. Requires a SPOKEAGENT_PASSCODE (see <a href="https://wiki.library.ucsf.edu/spaces/~Wanjun.Gu@ucsf.edu/pages/755904655/SPOKEAgent+Credentials" target="_blank" style="color:var(--accent);">credentials page</a>).</p>
+        <div class="ext-footer">
+          <div class="ext-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">Knowledge Graph</span></div>
+          <a href="https://github.com/BaranziniLab/SPOKEAgent/releases/download/v0.2.0/spokeagent-0.2.0.brxt" class="brxt-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            spokeagent.brxt
+          </a>
+        </div>
       </div>
-      <div class="agent-tags">
-        <span class="tag mcp">MCP</span>
-        <span class="tag">Browser</span>
-        <span class="tag">Web</span>
-        <span class="tag">Automation</span>
-      </div>
+
     </div>
-
-    <div class="no-results" id="no-results">
-      No agents match your search.<br>
-      <span style="font-size:13px; margin-top:6px; display:inline-block;">More agents are being added. <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" style="color:var(--accent);">Contribute on GitHub</a></span>
-    </div>
-
-  </div><!-- /agents-grid -->
-
-  <!-- ── RECIPES ─────────────────────────────────────────────────── -->
-  <div style="max-width:1100px; margin:0 auto; padding: 32px 24px 0;">
-    <div style="height:1px; background:var(--border);"></div>
   </div>
 
-  <div class="recipes-section" style="padding-top:40px;">
-    <div class="recipes-section-header">
-      <p class="eyebrow">Federated Workflows</p>
-      <h2>Community Recipes</h2>
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: MCP Agents (install via command)                   -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="baam-section" id="mcp-agents-section">
+    <div class="baam-section-header">
+      <h2>🤖 MCP Agents</h2>
+      <span class="count">Install via command</span>
     </div>
-    <p class="recipes-section-desc">Shareable, AI-adapted research pipelines — package a workflow once, run it across institutions.</p>
+    <p class="section-lead">These agents install via <code>uvx</code> or <code>npx</code>. Copy the command and paste it into BioRouter → Extensions → Add custom extension.</p>
 
+    <div class="agents-grid" id="agents-grid">
+
+      <!-- UCSF OMOP Agent -->
+      <div class="agent-card" data-tags="ucsf omop clinical sql ehr electronic health records database">
+        <div class="agent-card-header">
+          <div class="agent-icon-wrap">🏥</div>
+          <div class="agent-meta"><h3>UCSF OMOP Agent</h3><div class="agent-org">BaranziniLab · UCSF</div></div>
+          <a href="https://github.com/BaranziniLab/UCSFOMOPAgent" target="_blank" class="agent-gh-link" title="GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
+        </div>
+        <p class="agent-desc">MCP server enabling AI-driven SQL queries on the UCSF OMOP de-identified clinical database — read-only access to standardized EHR data under the OMOP Common Data Model.</p>
+        <div class="agent-cmd-wrap">
+          <span class="agent-cmd">uvx --from git+https://github.com/BaranziniLab/UCSFOMOPAgent ucsfomopagent</span>
+          <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/UCSFOMOPAgent ucsfomopagent')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+        <div class="agent-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">OMOP</span><span class="tag">EHR</span></div>
+      </div>
+
+      <!-- SPOKE Agent -->
+      <div class="agent-card" data-tags="spoke knowledge graph biomedical cypher neo4j disease gene drug pathway biology">
+        <div class="agent-card-header">
+          <div class="agent-icon-wrap">🕸️</div>
+          <div class="agent-meta"><h3>SPOKE Agent</h3><div class="agent-org">BaranziniLab · UCSF</div></div>
+          <a href="https://github.com/BaranziniLab/SPOKEAgent" target="_blank" class="agent-gh-link" title="GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
+        </div>
+        <p class="agent-desc">MCP server for the SPOKE biomedical knowledge graph — Cypher queries linking diseases, genes, proteins, drugs, and biological pathways. Rapid knowledge inference and hypothesis generation.</p>
+        <p style="font-size:12px; color:var(--text-3); margin-top:-4px;">⚠️ Requires <a href="https://wiki.library.ucsf.edu/spaces/~Wanjun.Gu@ucsf.edu/pages/755904655/SPOKEAgent+Credentials" target="_blank" style="color:var(--accent); text-decoration:underline;">SPOKEAGENT_PASSCODE</a> (UCSF login)</p>
+        <div class="agent-cmd-wrap">
+          <span class="agent-cmd">uvx --from git+https://github.com/BaranziniLab/SPOKEAgent spokeagent</span>
+          <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/SPOKEAgent spokeagent')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+        <div class="agent-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">Knowledge Graph</span><span class="tag">SPOKE</span></div>
+      </div>
+
+      <!-- MedCP -->
+      <div class="agent-card" data-tags="medcp medical clinical ehr records ai assistant health local private">
+        <div class="agent-card-header">
+          <div class="agent-icon-wrap">⚕️</div>
+          <div class="agent-meta"><h3>MedCP</h3><div class="agent-org">BaranziniLab · UCSF</div></div>
+          <a href="https://github.com/BaranziniLab/MedCP" target="_blank" class="agent-gh-link" title="GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
+        </div>
+        <p class="agent-desc">Medical MCP — transforms BioRouter into a local medical AI assistant with secure access to EHRs and biomedical knowledge graphs. Processes sensitive health data without sending it to the cloud.</p>
+        <div class="agent-cmd-wrap">
+          <span class="agent-cmd">uvx --from git+https://github.com/BaranziniLab/MedCP medcp</span>
+          <button class="copy-btn" onclick="copyCmd(this, 'uvx --from git+https://github.com/BaranziniLab/MedCP medcp')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+        <div class="agent-tags"><span class="tag ucsf">UCSF</span><span class="tag mcp">MCP</span><span class="tag">Clinical AI</span><span class="tag">Local</span></div>
+      </div>
+
+      <!-- Playwright MCP -->
+      <div class="agent-card" data-tags="playwright browser web automation scraping testing accessibility ui navigation microsoft">
+        <div class="agent-card-header">
+          <div class="agent-icon-wrap">🎭</div>
+          <div class="agent-meta"><h3>Playwright MCP</h3><div class="agent-org">Microsoft</div></div>
+          <a href="https://github.com/microsoft/playwright-mcp" target="_blank" class="agent-gh-link" title="GitHub">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          </a>
+        </div>
+        <p class="agent-desc">Full browser automation via Playwright — navigate websites, extract data, fill forms, and automate web-based research workflows using structured accessibility snapshots. No vision model required.</p>
+        <div class="agent-cmd-wrap">
+          <span class="agent-cmd">npx @playwright/mcp@latest</span>
+          <button class="copy-btn" onclick="copyCmd(this, 'npx @playwright/mcp@latest')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+        <div class="agent-tags"><span class="tag mcp">MCP</span><span class="tag">Browser</span><span class="tag">Automation</span></div>
+      </div>
+
+      <div class="no-results" id="no-results">
+        No agents match your search.<br>
+        <span style="font-size:13px; margin-top:6px; display:inline-block;">More agents being added. <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" style="color:var(--accent);">Contribute →</a></span>
+      </div>
+    </div><!-- /agents-grid -->
+
+    <!-- How to add an MCP agent -->
+    <div class="how-steps">
+      <div class="how-step"><div class="how-num">1</div><div class="how-text"><h4>Prerequisites</h4><p>For <code>uvx</code> agents, install <a href="https://docs.astral.sh/uv/" target="_blank">uv</a>. For <code>npx</code> agents, install <a href="https://nodejs.org" target="_blank">Node.js</a>.</p></div></div>
+      <div class="how-step"><div class="how-num">2</div><div class="how-text"><h4>Copy the command</h4><p>Click the copy icon on any agent card above.</p></div></div>
+      <div class="how-step"><div class="how-num">3</div><div class="how-text"><h4>Add to BioRouter</h4><p>Sidebar → Extensions → Add custom extension → paste the command → set required env vars.</p></div></div>
+      <div class="how-step"><div class="how-num">4</div><div class="how-text"><h4>Enable &amp; Use</h4><p>Toggle the extension on. Its tools are now available in every session.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: Community Workflows                                -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="baam-section">
+    <div class="baam-section-header">
+      <h2>📁 Community Workflows</h2>
+      <a href="https://github.com/Broccolito/biorouter-workflows" target="_blank" class="section-link">All on GitHub →</a>
+    </div>
     <div class="federation-banner">
-      <strong>Cross-Institution Federated Collaboration:</strong> Recipes let researchers share entire analytical workflows without sharing sensitive data. A recipe is a portable YAML file — it carries the <em>instructions</em> for a workflow, not the underlying patient records or proprietary datasets. A colleague can import your recipe and run it against their own institutional data sources to replicate and extend your research.
+      <strong>Federated Collaboration:</strong> Workflows let researchers share entire analytical pipelines without sharing sensitive data. A workflow is a portable YAML file — it carries the <em>instructions</em>, not the underlying patient records or proprietary datasets. A colleague imports your workflow and runs it against their own institutional data to replicate and extend your research.
     </div>
 
-    <!-- EHR Diabetes Recipe -->
-    <div class="recipe-card">
-      <div class="recipe-card-header">
-        <div class="recipe-icon-wrap">📊</div>
-        <div class="recipe-meta">
-          <h3>EHR Diabetes Demographics and Reporting Dashboard</h3>
-          <div class="recipe-tags">
+    <div class="wf-card">
+      <div class="wf-card-header">
+        <div class="wf-icon-wrap">📊</div>
+        <div class="wf-meta">
+          <h3>EHR Diabetes Demographics &amp; Reporting Dashboard</h3>
+          <div class="wf-tags">
             <span class="tag federated">Federated</span>
             <span class="tag ucsf">OMOP CDM</span>
             <span class="tag">EHR</span>
@@ -414,124 +514,170 @@
           </div>
         </div>
       </div>
-      <p class="recipe-desc">Query an OMOP-based EHR to identify a Type 2 Diabetes patient cohort, compute demographic summaries (gender, age distribution, race, ethnicity), and automatically generate a shareable HTML report and an interactive R Shiny dashboard — all via natural language, runnable at any OMOP-compatible institution without sharing patient data.</p>
+      <p class="wf-desc">Query an OMOP-based EHR to identify a Type 2 Diabetes cohort, compute demographic summaries (gender, age, race, ethnicity), and auto-generate a shareable HTML report and interactive R Shiny dashboard — runnable at any OMOP-compatible institution without sharing patient data.</p>
       <div>
-        <button class="recipe-yaml-toggle" onclick="toggleYaml(this, 'yaml-diabetes')" aria-expanded="false">
+        <button class="wf-yaml-toggle" onclick="toggleYaml(this, 'yaml-diabetes')">
           <svg class="toggle-icon" width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 8,5 2,9"/></svg>
-          View Recipe YAML
+          View Workflow YAML
         </button>
-        <pre class="recipe-yaml-pre" id="yaml-diabetes">version: 1.0.0
+        <pre class="wf-yaml-pre" id="yaml-diabetes">version: 1.0.0
 title: EHR Diabetes Demographics and Reporting Dashboard
-description: A recipe for querying an OMOP-based EHR to derive a disease cohort
+description: A workflow for querying an OMOP-based EHR to derive a disease cohort
   (e.g., T2D), summarize demographics, and produce sharable visual outputs.
-instructions: Use an OMOP CDM clinical database to identify a patient cohort via
-  diagnosis concepts (e.g., matching condition_occurrence to relevant concepts in
-  concept). Then, join to person to obtain demographics (gender, age via
-  year_of_birth, race, ethnicity) and compute counts and percentages. Present
-  results as both a concise HTML report and, optionally, an interactive R Shiny
-  dashboard with charts and tables. When tooling is available, run SELECT-only
-  queries through a clinical data extension (e.g., medcp.query_clinical_records),
-  and use a system automation/file tool (e.g.,
-  computercontroller.automation_script or computercontroller.computer_control) to
-  generate files on disk (HTML and an R Shiny app folder). Make output locations
-  explicit (e.g., /Users/&lt;user&gt;/Desktop) and ensure visualizations include
-  clear labels and percentages.
-extensions: []
+instructions: |
+  Use an OMOP CDM clinical database to identify a patient cohort via diagnosis
+  concepts. Join to person to obtain demographics and compute counts/percentages.
+  Present results as an HTML report and optional R Shiny dashboard.
 activities:
   - Count disease cohort
   - Demographic breakdowns
   - Generate HTML report
   - Build Shiny dashboard
-  - Age distribution analysis
-parameters: []</pre>
+extensions: []</pre>
       </div>
-      <div class="recipe-actions">
-        <a href="assets/ehr-diabetes-recipe.yaml" download="ehr-diabetes-recipe.yaml" class="btn-primary btn-sm">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download Recipe
+      <div class="wf-actions">
+        <a href="https://raw.githubusercontent.com/Broccolito/biorouter-workflows/main/workflows/ehr-diabetes-dashboard.yaml" download="ehr-diabetes-dashboard.yaml" class="btn-primary btn-sm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Workflow
         </a>
-        <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="btn-secondary btn-sm">Contribute on GitHub</a>
+        <a href="https://github.com/Broccolito/biorouter-workflows" target="_blank" class="btn-secondary btn-sm">More workflows →</a>
       </div>
     </div>
   </div>
 
-  <!-- How to Install an Agent -->
-  <div class="install-guide" style="padding-top:40px;">
-    <h3>How to Install an Agent</h3>
-    <div class="install-steps">
-      <div class="install-step">
-        <div class="install-step-num">1</div>
-        <div class="install-step-text">
-          <h4>Prerequisites</h4>
-          <p>For <code>uvx</code> agents, install <a href="https://docs.astral.sh/uv/" target="_blank">uv</a>. For <code>npx</code> agents, install <a href="https://nodejs.org" target="_blank">Node.js</a>.</p>
-        </div>
-      </div>
-      <div class="install-step">
-        <div class="install-step-num">2</div>
-        <div class="install-step-text">
-          <h4>Copy the Command</h4>
-          <p>Click the copy icon on an agent card to copy its install command to your clipboard.</p>
-        </div>
-      </div>
-      <div class="install-step">
-        <div class="install-step-num">3</div>
-        <div class="install-step-text">
-          <h4>Add to BioRouter</h4>
-          <p>In BioRouter: Sidebar → Extensions → Add custom extension → paste the command.</p>
-        </div>
-      </div>
-      <div class="install-step">
-        <div class="install-step-num">4</div>
-        <div class="install-step-text">
-          <h4>Enable &amp; Use</h4>
-          <p>Toggle the extension on. The agent's tools are now available in your sessions.</p>
-        </div>
-      </div>
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: Skills                                             -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="baam-section">
+    <div class="baam-section-header">
+      <h2>🧠 Skills</h2>
+      <span class="count">8 available</span>
+      <a href="https://github.com/Broccolito/biorouter-workflows/releases" target="_blank" class="section-link">All releases →</a>
     </div>
-  </div>
+    <div class="install-note">
+      <strong>To install:</strong> Download the <code>.zip</code>, unzip, and move the folder to <code>~/.config/biorouter/skills/</code>. Skills appear in BioRouter → Skills automatically. User-invocable skills respond to <code>/skill-name</code> in chat.
+    </div>
 
-  <!-- How to Execute a Recipe -->
-  <div class="install-guide" style="padding-top:28px;">
-    <h3>How to Execute a Recipe</h3>
-    <div class="install-steps">
-      <div class="install-step">
-        <div class="install-step-num">1</div>
-        <div class="install-step-text">
-          <h4>Download the Recipe</h4>
-          <p>Click <strong>Download Recipe</strong> on any recipe card above to save the <code>.yaml</code> file to your machine.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">✍️</div>
+          <div class="skill-meta"><h3>Anti-AI Writing</h3><div class="skill-type">User-invocable · /anti-ai-writing</div></div>
+        </div>
+        <p class="skill-desc">Pass/fail checklist that eliminates AI writing patterns before generating prose, articles, or essays.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Writing</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-anti-ai-writing/anti-ai-writing.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
         </div>
       </div>
-      <div class="install-step">
-        <div class="install-step-num">2</div>
-        <div class="install-step-text">
-          <h4>Open BioRouter Recipes Tab</h4>
-          <p>In BioRouter, navigate to the <strong>Recipes</strong> tab in the sidebar.</p>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">📊</div>
+          <div class="skill-meta"><h3>ggplot2 Visualization</h3><div class="skill-type">Auto-applied · R plotting</div></div>
+        </div>
+        <p class="skill-desc">Enforces ggplot2 best-practice style automatically when writing R plotting code.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">R</span><span class="tag">ggplot2</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-ggplot-visualization/ggplot-visualization.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
         </div>
       </div>
-      <div class="install-step">
-        <div class="install-step-num">3</div>
-        <div class="install-step-text">
-          <h4>Import Recipe</h4>
-          <p>Click <strong>Import Recipe</strong> and select the downloaded <code>.yaml</code> file. BioRouter will configure the workflow automatically.</p>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">🔵</div>
+          <div class="skill-meta"><h3>R Scripting</h3><div class="skill-type">Auto-applied · R code</div></div>
+        </div>
+        <p class="skill-desc">Applies tidyverse conventions and documentation standards automatically when writing or reviewing R code.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">R</span><span class="tag">Tidyverse</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-r-scripting/r-scripting.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
         </div>
       </div>
-      <div class="install-step">
-        <div class="install-step-num">4</div>
-        <div class="install-step-text">
-          <h4>Run &amp; Share</h4>
-          <p>Execute against your institutional data. Share the YAML with collaborators — they run it on their own data, no patient records exchanged.</p>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">🐍</div>
+          <div class="skill-meta"><h3>Python Scripting</h3><div class="skill-type">Auto-applied · Python code</div></div>
+        </div>
+        <p class="skill-desc">Enforces Python naming, typing, error handling, and project structure conventions automatically when writing Python code.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Python</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-python-scripting/python-scripting.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
         </div>
       </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">📋</div>
+          <div class="skill-meta"><h3>PRD Generator</h3><div class="skill-type">User-invocable · /prd</div></div>
+        </div>
+        <p class="skill-desc">Generates structured Product Requirements Documents with problem statement, user stories, and acceptance criteria.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Planning</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-prd/prd.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">⚙️</div>
+          <div class="skill-meta"><h3>Ralph PRD Converter</h3><div class="skill-type">User-invocable · /ralph</div></div>
+        </div>
+        <p class="skill-desc">Converts a markdown PRD into <code>prd.json</code> for the Ralph autonomous agent loop — each story sized for one hands-off iteration.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Automation</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-ralph/ralph.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">🔧</div>
+          <div class="skill-meta"><h3>Build a BioRouter Extension</h3><div class="skill-type">User-invocable · /develop-biorouter-extension</div></div>
+        </div>
+        <p class="skill-desc">Complete guide for building a <code>.brxt</code> extension — directory layout, <code>manifest.json</code>, Python MCP server, and bundled skills.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Extension</span><span class="tag mcp">MCP</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-develop-biorouter-extension/develop-biorouter-extension.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
+        </div>
+      </div>
+
+      <div class="skill-card" style="border-color: rgba(207,109,71,0.25);">
+        <div class="skill-card-header">
+          <div class="skill-icon-wrap">⚡</div>
+          <div class="skill-meta"><h3>Superpowers Collection</h3><div class="skill-type">13 skills · TDD, debugging, planning &amp; more</div></div>
+        </div>
+        <p class="skill-desc">Engineering discipline skills: brainstorming, TDD, systematic debugging, parallel agents, plan writing, code review, git worktrees — proven workflows for complex tasks.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">TDD</span><span class="tag">Debugging</span><span class="tag">Collection</span></div>
+          <a href="https://github.com/Broccolito/biorouter-workflows/releases/download/skill-superpowers/superpowers.zip" class="skill-dl-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip
+          </a>
+        </div>
+      </div>
+
     </div>
-    <p style="text-align:center; font-size:13px; color:var(--text-3); margin-top:18px;">
-      Want to create or share a recipe with the community?
-      <a href="mailto:wanjun.gu@ucsf.edu" style="color:var(--accent); text-decoration:none;">Contact Wanjun Gu</a> for more info.
-    </p>
   </div>
 
   <!-- CTA -->
-  <div class="baam-cta">
-    <p>Have a biomedical AI agent to contribute? Submit it to the BAAM marketplace.</p>
+  <div style="text-align:center; padding: 20px 24px 56px;">
+    <p style="color:var(--text-3); font-size:13px; margin-bottom:12px;">Have an agent, workflow, or skill to share with the BioRouter community?</p>
     <a href="https://github.com/BaranziniLab/BioRouter" target="_blank" class="btn-secondary btn-sm">Contribute on GitHub</a>
   </div>
 
@@ -560,6 +706,8 @@ parameters: []</pre>
       if (show) visible++;
     });
     document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    const section = document.getElementById('mcp-agents-section');
+    if (q) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   async function copyCmd(btn, text) {
@@ -579,12 +727,7 @@ parameters: []</pre>
     const isOpen = pre.style.display === 'block';
     pre.style.display = isOpen ? 'none' : 'block';
     btn.classList.toggle('open', !isOpen);
-    btn.setAttribute('aria-expanded', String(!isOpen));
-    btn.querySelector('svg + *') || null; // noop, just trigger repaint
-    const label = btn.querySelector('svg');
-    // Update button text (preserve icon)
-    const text = isOpen ? ' View Recipe YAML' : ' Hide Recipe YAML';
-    btn.childNodes[btn.childNodes.length - 1].textContent = text;
+    btn.childNodes[btn.childNodes.length - 1].textContent = isOpen ? ' View Workflow YAML' : ' Hide Workflow YAML';
   }
 </script>
 </body>
