@@ -160,6 +160,72 @@
       margin-bottom: 18px;
     }
     .install-note strong { color: var(--text); }
+    .install-note code { font-size: 12px; }
+
+    /* Skills search bar (mirrors the agent search at the top) */
+    .skills-search-wrap {
+      max-width: 100%; margin: 0 0 14px; position: relative;
+    }
+    .skills-search-wrap .search-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px; color: var(--text-3); pointer-events: none;
+    }
+    #skill-search {
+      width: 100%; padding: 10px 14px 10px 40px;
+      background: var(--bg-2);
+      border: none;
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 13.5px; font-family: inherit;
+      outline: none;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    #skill-search:focus { box-shadow: var(--shadow), 0 0 0 3px var(--accent-soft); }
+    #skill-search::placeholder { color: var(--text-3); }
+
+    /* Subsection titles inside the Skills section */
+    .subsection-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.2px;
+      color: var(--text); text-transform: uppercase;
+      margin: 28px 0 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .subsection-title:first-of-type { margin-top: 0; }
+    .subsection-title .sub-count {
+      font-size: 10.5px; font-weight: 600; color: var(--text-3);
+      background: var(--bg-3); padding: 2px 8px; border-radius: 100px;
+      letter-spacing: 0;
+    }
+    .subsection-title .sub-link {
+      margin-left: auto; font-size: 11.5px; color: var(--accent);
+      text-decoration: none; font-weight: 600; text-transform: none;
+      letter-spacing: 0;
+    }
+    .subsection-title .sub-link:hover { text-decoration: underline; }
+
+    /* BioSkills compact card variant */
+    .bio-card { padding: 16px 18px; gap: 8px; }
+    .bio-card .skill-meta h3 { font-size: 13.5px; }
+    .bio-card .skill-type { font-size: 10.5px; }
+    .bio-card .skill-desc { font-size: 12px; line-height: 1.55; }
+    .bio-card .skill-dl-btn { padding: 5px 10px; font-size: 10.5px; }
+    .bio-card .icon-tile-sm { background: var(--bg-3); }
+
+    /* Compact grid for BioSkills (more columns) */
+    .skill-grid-compact {
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 10px;
+    }
+
+    /* "no results" message */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-3);
+      font-size: 13px;
+    }
 
     .federation-banner {
       background: rgba(5,32,73,0.05);
@@ -377,7 +443,7 @@ activities:
 extensions: []</pre>
       </div>
       <div class="wf-actions">
-        <a href="https://raw.githubusercontent.com/Broccolito/biorouter-workflows/main/workflows/ehr-diabetes-dashboard.yaml" download="ehr-diabetes-dashboard.yaml" class="btn-primary btn-sm">
+        <a href="https://raw.githubusercontent.com/Broccolito/biorouter-workflows/main/workflows/ehr-diabetes-dashboard.yaml" download="ehr-diabetes-dashboard.yaml" class="skill-dl-btn">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download workflow
         </a>
@@ -387,18 +453,30 @@ extensions: []</pre>
   </div>
 
   <!-- SKILLS -->
-  <div class="baam-section">
+  <div class="baam-section" id="skills-section">
     <div class="baam-section-header">
       <svg class="icon" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.04Z"/></svg>
       <h2>Skills</h2>
-      <span class="count">7 available</span>
+      <span class="count">70 collections · 460+ skills</span>
       <a href="https://github.com/BaranziniLab/biorouter-skills" target="_blank" class="section-link">All on GitHub →</a>
     </div>
     <div class="install-note">
-      <strong>Skills</strong> are reusable instruction bundles that shape how BioRouter writes code, drafts documents, and reasons about a problem. <strong>To install:</strong> download a <code>.zip</code> below, unzip it, and move the folder into <code>~/.config/biorouter/skills/</code>. Skills appear under BioRouter, Skills automatically. Auto-applied skills activate when relevant files are touched. User-invocable skills respond to <code>/skill-name</code> in chat.
+      <strong>Skills</strong> are reusable instruction bundles that shape how BioRouter writes code, drafts documents, and reasons about a problem. <strong>To install:</strong> download a <code>.zip</code> below, then in BioRouter open <strong>Skills → Add Skill</strong> and drag the <code>.zip</code> (or a single <code>SKILL.md</code>) into the drop zone — BioRouter unpacks the bundle into <code>~/.config/biorouter/skills/</code> and registers every <code>SKILL.md</code> inside. You can also unzip manually and copy the folder into <code>~/.config/biorouter/skills/</code>. Skills appear under BioRouter → Skills automatically; auto-applied skills activate when relevant files are touched.
     </div>
 
-    <div class="skill-grid">
+    <!-- Skills search bar -->
+    <div class="skills-search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="skill-search" placeholder="Search skills by name, category, capability, or tool (e.g. GATK, scanpy, MAFFT)" oninput="filterSkills()" />
+    </div>
+
+    <!-- Core BioRouter skills subsection -->
+    <div class="subsection-title">
+      Core BioRouter skills
+      <span class="sub-count">7 skills</span>
+    </div>
+
+    <div class="skill-grid" id="core-skill-grid">
 
       <div class="skill-card">
         <div class="skill-card-header">
@@ -513,6 +591,1026 @@ extensions: []</pre>
       </div>
 
     </div>
+
+    <!-- Biomedical analysis skills subsection -->
+    <div class="subsection-title">
+      Biomedical analysis skills <span class="sub-count">63 categories · 456 skills</span>
+    </div>
+
+    <div class="skill-grid skill-grid-compact" id="bio-skill-grid">
+
+      <div class="skill-card bio-card" data-tags="alignment mafft biopython foldseek">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Alignment</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Multiple sequence alignment and pairwise alignment.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MAFFT</span><span class="tag">Biopython</span><span class="tag">Foldseek</span></div>
+          <a href="assets/bio-skills/alignment.zip" download="alignment.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="alignment-files samtools pysam bam">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Alignment Files</h3>
+            <div class="skill-type">10 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">SAM/BAM/CRAM manipulation, sorting, indexing, dedup, and stats.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">samtools</span><span class="tag">pysam</span><span class="tag">BAM</span></div>
+          <a href="assets/bio-skills/alignment-files.zip" download="alignment-files.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="alternative-splicing rmats suppa2 isoforms">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Alternative Splicing</h3>
+            <div class="skill-type">9 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">RNA isoform and splice-junction analysis from short- and long-read data.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">rMATS</span><span class="tag">SUPPA2</span><span class="tag">isoforms</span></div>
+          <a href="assets/bio-skills/alternative-splicing.zip" download="alternative-splicing.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="atac-seq macs3 tobias chrombpnet">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>ATAC-seq</h3>
+            <div class="skill-type">12 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Chromatin accessibility, peak calling, footprinting, and deep-learning ATAC.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MACS3</span><span class="tag">TOBIAS</span><span class="tag">chromBPNet</span></div>
+          <a href="assets/bio-skills/atac-seq.zip" download="atac-seq.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="causal-genomics mr coloc twas">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Causal Genomics</h3>
+            <div class="skill-type">11 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Mendelian randomization, colocalization, fine-mapping, and TWAS.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MR</span><span class="tag">coloc</span><span class="tag">TWAS</span></div>
+          <a href="assets/bio-skills/causal-genomics.zip" download="causal-genomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="chemoinformatics rdkit smiles">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Chemoinformatics</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Molecular structure handling, descriptors, and drug-discovery utilities.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">RDKit</span><span class="tag">SMILES</span></div>
+          <a href="assets/bio-skills/chemoinformatics.zip" download="chemoinformatics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="chip-seq macs2 chipseeker">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>ChIP-seq</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Transcription-factor and histone-mark peak calling and differential binding.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MACS2</span><span class="tag">ChIPseeker</span></div>
+          <a href="assets/bio-skills/chip-seq.zip" download="chip-seq.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="clinical-biostatistics survival r lme4">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Clinical Biostatistics</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Survival, mixed models, and clinical-trial statistical analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">survival</span><span class="tag">R</span><span class="tag">lme4</span></div>
+          <a href="assets/bio-skills/clinical-biostatistics.zip" download="clinical-biostatistics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="clinical-databases clinvar omim gnomad">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Clinical Databases</h3>
+            <div class="skill-type">10 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">ClinVar, OMIM, COSMIC, gnomAD, and phenotype DB queries.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">ClinVar</span><span class="tag">OMIM</span><span class="tag">gnomAD</span></div>
+          <a href="assets/bio-skills/clinical-databases.zip" download="clinical-databases.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="clip-seq pureclip eclip">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>CLIP-seq</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Protein–RNA interaction mapping from iCLIP/eCLIP/PAR-CLIP data.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">PureCLIP</span><span class="tag">eCLIP</span></div>
+          <a href="assets/bio-skills/clip-seq.zip" download="clip-seq.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="comparative-genomics orthofinder synteny">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Comparative Genomics</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Cross-species synteny, orthology, and selection scans.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">OrthoFinder</span><span class="tag">synteny</span></div>
+          <a href="assets/bio-skills/comparative-genomics.zip" download="comparative-genomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="copy-number cnvkit gatk cnv">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Copy Number</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">CNV detection, visualization, and segmentation.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">CNVkit</span><span class="tag">GATK CNV</span></div>
+          <a href="assets/bio-skills/copy-number.zip" download="copy-number.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="crispr-screens mageck screens">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>CRISPR Screens</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Pooled screen counting, MAGeCK analysis, and hit prioritization.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MAGeCK</span><span class="tag">screens</span></div>
+          <a href="assets/bio-skills/crispr-screens.zip" download="crispr-screens.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="data-visualization ggplot2 matplotlib complexheatmap">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Data Visualization</h3>
+            <div class="skill-type">12 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Publication-quality plots: heatmaps, volcano, Manhattan, dimplots.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">ggplot2</span><span class="tag">matplotlib</span><span class="tag">ComplexHeatmap</span></div>
+          <a href="assets/bio-skills/data-visualization.zip" download="data-visualization.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="database-access entrez uniprot ensembl">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Database Access</h3>
+            <div class="skill-type">11 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">NCBI, UniProt, Ensembl, and biological database APIs.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Entrez</span><span class="tag">UniProt</span><span class="tag">Ensembl</span></div>
+          <a href="assets/bio-skills/database-access.zip" download="database-access.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="differential-expression deseq2 edger limma">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Differential Expression</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">RNA-seq DE testing with DESeq2, edgeR, and limma-voom.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">DESeq2</span><span class="tag">edgeR</span><span class="tag">limma</span></div>
+          <a href="assets/bio-skills/differential-expression.zip" download="differential-expression.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="ecological-genomics edna popgen">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Ecological Genomics</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Environmental DNA, ecological population genomics, and biodiversity.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">eDNA</span><span class="tag">popgen</span></div>
+          <a href="assets/bio-skills/ecological-genomics.zip" download="ecological-genomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="epidemiological-genomics nextstrain pathogens">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Epidemiological Genomics</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Pathogen typing, outbreak phylogeography, and surveillance.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Nextstrain</span><span class="tag">pathogens</span></div>
+          <a href="assets/bio-skills/epidemiological-genomics.zip" download="epidemiological-genomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="epitranscriptomics m6a rna mods">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Epitranscriptomics</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">m6A and other RNA modification detection from sequencing.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">m6A</span><span class="tag">RNA mods</span></div>
+          <a href="assets/bio-skills/epitranscriptomics.zip" download="epitranscriptomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="experimental-design power design">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Experimental Design</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Power analysis and sample-size calculation for omics studies.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">power</span><span class="tag">design</span></div>
+          <a href="assets/bio-skills/experimental-design.zip" download="experimental-design.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="expression-matrix tpm mygene">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Expression Matrix</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Count normalization, gene ID mapping, and matrix QC.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">TPM</span><span class="tag">mygene</span></div>
+          <a href="assets/bio-skills/expression-matrix.zip" download="expression-matrix.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="flow-cytometry flowcore flowsom">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Flow Cytometry</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">FCS parsing, gating, and high-dimensional cytometry analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">flowCore</span><span class="tag">FlowSOM</span></div>
+          <a href="assets/bio-skills/flow-cytometry.zip" download="flow-cytometry.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="gene-regulatory-networks scenic grnboost2">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Gene Regulatory Networks</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">TF–target network inference from expression and chromatin data.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">SCENIC</span><span class="tag">GRNBoost2</span></div>
+          <a href="assets/bio-skills/gene-regulatory-networks.zip" download="gene-regulatory-networks.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="genome-annotation augustus interproscan">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Genome Annotation</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Gene prediction, repeat masking, and functional annotation.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">AUGUSTUS</span><span class="tag">InterProScan</span></div>
+          <a href="assets/bio-skills/genome-annotation.zip" download="genome-annotation.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="genome-assembly flye hifiasm quast">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Genome Assembly</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">De novo assembly, polishing, and assembly QC.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Flye</span><span class="tag">hifiasm</span><span class="tag">QUAST</span></div>
+          <a href="assets/bio-skills/genome-assembly.zip" download="genome-assembly.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="genome-engineering crispor cas9">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Genome Engineering</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">CRISPR guide design, off-target prediction, and editing analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">CRISPOR</span><span class="tag">Cas9</span></div>
+          <a href="assets/bio-skills/genome-engineering.zip" download="genome-engineering.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="genome-intervals bedtools pybedtools">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Genome Intervals</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">BED/GTF arithmetic, overlap, and feature manipulation.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">bedtools</span><span class="tag">pybedtools</span></div>
+          <a href="assets/bio-skills/genome-intervals.zip" download="genome-intervals.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="hi-c-analysis cooler hic-pro">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Hi-C Analysis</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">3D chromatin contacts, TAD calling, and loop detection.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">cooler</span><span class="tag">HiC-Pro</span></div>
+          <a href="assets/bio-skills/hi-c-analysis.zip" download="hi-c-analysis.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="imaging-mass-cytometry imc steinbock">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Imaging Mass Cytometry</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Single-cell spatial proteomics from IMC and MIBI data.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">IMC</span><span class="tag">Steinbock</span></div>
+          <a href="assets/bio-skills/imaging-mass-cytometry.zip" download="imaging-mass-cytometry.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="immunoinformatics netmhc hla">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Immunoinformatics</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">MHC binding, neoantigen prediction, and HLA typing.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">NetMHC</span><span class="tag">HLA</span></div>
+          <a href="assets/bio-skills/immunoinformatics.zip" download="immunoinformatics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="liquid-biopsy cfdna ichorcna">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Liquid Biopsy</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Cell-free DNA fragmentomics, tumor fraction, and methylation cfDNA.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">cfDNA</span><span class="tag">ichorCNA</span></div>
+          <a href="assets/bio-skills/liquid-biopsy.zip" download="liquid-biopsy.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="long-read-sequencing nanopore pacbio minimap2">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Long-read Sequencing</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">ONT and PacBio basecalling, alignment, and structural-variant workflows.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Nanopore</span><span class="tag">PacBio</span><span class="tag">minimap2</span></div>
+          <a href="assets/bio-skills/long-read-sequencing.zip" download="long-read-sequencing.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="machine-learning scikit-learn ml">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Machine Learning</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Biomarker discovery, model training, and cross-validation pipelines.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">scikit-learn</span><span class="tag">ML</span></div>
+          <a href="assets/bio-skills/machine-learning.zip" download="machine-learning.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="metabolomics xcms metaboanalyst">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Metabolomics</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Mass-spec metabolite identification, alignment, and quantification.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">XCMS</span><span class="tag">MetaboAnalyst</span></div>
+          <a href="assets/bio-skills/metabolomics.zip" download="metabolomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="metagenomics kraken2 metaphlan">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Metagenomics</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Shotgun microbial profiling, assembly, and binning.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Kraken2</span><span class="tag">MetaPhlAn</span></div>
+          <a href="assets/bio-skills/metagenomics.zip" download="metagenomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="methylation-analysis bismark methylkit">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Methylation Analysis</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Bisulfite alignment and differential methylation testing.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Bismark</span><span class="tag">methylKit</span></div>
+          <a href="assets/bio-skills/methylation-analysis.zip" download="methylation-analysis.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="microbiome qiime2 dada2">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Microbiome</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">16S rRNA amplicon and microbiota community profiling.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">QIIME2</span><span class="tag">DADA2</span></div>
+          <a href="assets/bio-skills/microbiome.zip" download="microbiome.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="multi-omics-integration mofa diablo">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Multi-omics Integration</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Cross-modality fusion: MOFA, DIABLO, WNN, totalVI.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MOFA</span><span class="tag">DIABLO</span></div>
+          <a href="assets/bio-skills/multi-omics-integration.zip" download="multi-omics-integration.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="pathway-analysis clusterprofiler gsea">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Pathway Analysis</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">GO, KEGG, Reactome, and GSEA enrichment testing.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">clusterProfiler</span><span class="tag">GSEA</span></div>
+          <a href="assets/bio-skills/pathway-analysis.zip" download="pathway-analysis.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="phasing-imputation shapeit beagle">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Phasing &amp; Imputation</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Haplotype phasing and genotype imputation with SHAPEIT and Beagle.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">SHAPEIT</span><span class="tag">Beagle</span></div>
+          <a href="assets/bio-skills/phasing-imputation.zip" download="phasing-imputation.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="phylogenetics iq-tree beast">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Phylogenetics</h3>
+            <div class="skill-type">8 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Tree construction with IQ-TREE, RAxML, BEAST, and ancestral state.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">IQ-TREE</span><span class="tag">BEAST</span></div>
+          <a href="assets/bio-skills/phylogenetics.zip" download="phylogenetics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="population-genetics plink gwas">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Population Genetics</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">GWAS, population structure, LD, and selection scans.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">PLINK</span><span class="tag">GWAS</span></div>
+          <a href="assets/bio-skills/population-genetics.zip" download="population-genetics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="primer-design primer3 qpcr">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Primer Design</h3>
+            <div class="skill-type">3 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">PCR and qPCR primer generation with Primer3 and primerBLAST.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Primer3</span><span class="tag">qPCR</span></div>
+          <a href="assets/bio-skills/primer-design.zip" download="primer-design.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="proteomics maxquant fragpipe">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Proteomics</h3>
+            <div class="skill-type">9 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Mass-spec quantification and protein abundance pipelines.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MaxQuant</span><span class="tag">FragPipe</span></div>
+          <a href="assets/bio-skills/proteomics.zip" download="proteomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="read-alignment bwa-mem2 star">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Read Alignment</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Short-read mapping with BWA-MEM2, Bowtie2, STAR, HISAT2.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">BWA-MEM2</span><span class="tag">STAR</span></div>
+          <a href="assets/bio-skills/read-alignment.zip" download="read-alignment.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="read-qc fastqc fastp kraken2">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Read QC</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">FastQC, fastp, trimming, and contamination screening.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">FastQC</span><span class="tag">fastp</span><span class="tag">Kraken2</span></div>
+          <a href="assets/bio-skills/read-qc.zip" download="read-qc.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="reporting quarto rmarkdown">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Reporting</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Reproducible HTML, Quarto, and R Markdown reports.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Quarto</span><span class="tag">RMarkdown</span></div>
+          <a href="assets/bio-skills/reporting.zip" download="reporting.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="restriction-analysis rebase digestion">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Restriction Analysis</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Restriction-enzyme mapping and digestion prediction.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">REBASE</span><span class="tag">digestion</span></div>
+          <a href="assets/bio-skills/restriction-analysis.zip" download="restriction-analysis.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="ribo-seq ribowaltz ribo-tish">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Ribo-seq</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Ribosome profiling and translation-efficiency analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">riboWaltz</span><span class="tag">Ribo-TISH</span></div>
+          <a href="assets/bio-skills/ribo-seq.zip" download="ribo-seq.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="rna-quantification salmon kallisto">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>RNA Quantification</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Gene and transcript abundance with Salmon, kallisto, RSEM.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Salmon</span><span class="tag">kallisto</span></div>
+          <a href="assets/bio-skills/rna-quantification.zip" download="rna-quantification.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="rna-structure rnafold viennarna">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>RNA Structure</h3>
+            <div class="skill-type">3 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Secondary-structure prediction with RNAfold, IPknot.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">RNAfold</span><span class="tag">ViennaRNA</span></div>
+          <a href="assets/bio-skills/rna-structure.zip" download="rna-structure.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="sequence-io biopython seqkit">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Sequence I/O</h3>
+            <div class="skill-type">9 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">FASTA/FASTQ parsing, conversion, and indexing.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Biopython</span><span class="tag">seqkit</span></div>
+          <a href="assets/bio-skills/sequence-io.zip" download="sequence-io.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="sequence-manipulation biopython emboss">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Sequence Manipulation</h3>
+            <div class="skill-type">7 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Transcription, translation, ORF finding, and motif search.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Biopython</span><span class="tag">EMBOSS</span></div>
+          <a href="assets/bio-skills/sequence-manipulation.zip" download="sequence-manipulation.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="single-cell scanpy seurat scvi">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Single-cell</h3>
+            <div class="skill-type">14 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">scRNA-seq clustering, annotation, trajectory, and integration.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Scanpy</span><span class="tag">Seurat</span><span class="tag">scVI</span></div>
+          <a href="assets/bio-skills/single-cell.zip" download="single-cell.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="small-rna-seq mirdeep2 isomirs">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Small RNA-seq</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">miRNA, piRNA, and small-RNA quantification.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">miRDeep2</span><span class="tag">isomiRs</span></div>
+          <a href="assets/bio-skills/small-rna-seq.zip" download="small-rna-seq.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="spatial-transcriptomics visium squidpy">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Spatial Transcriptomics</h3>
+            <div class="skill-type">11 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Visium, Slide-seq, and high-resolution tissue expression.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Visium</span><span class="tag">Squidpy</span></div>
+          <a href="assets/bio-skills/spatial-transcriptomics.zip" download="spatial-transcriptomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="structural-biology alphafold pymol">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Structural Biology</h3>
+            <div class="skill-type">6 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">PDB parsing, AlphaFold, ESMFold, and structure analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">AlphaFold</span><span class="tag">PyMOL</span></div>
+          <a href="assets/bio-skills/structural-biology.zip" download="structural-biology.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="systems-biology cobrapy fba">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Systems Biology</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Metabolic flux balance, kinetic modelling, network analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">COBRApy</span><span class="tag">FBA</span></div>
+          <a href="assets/bio-skills/systems-biology.zip" download="systems-biology.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="tcr-bcr-analysis mixcr scirpy">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>TCR/BCR Analysis</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Immune-receptor repertoire profiling and clonal-family analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MiXCR</span><span class="tag">scirpy</span></div>
+          <a href="assets/bio-skills/tcr-bcr-analysis.zip" download="tcr-bcr-analysis.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="temporal-genomics metacycle jtk_cycle">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Temporal Genomics</h3>
+            <div class="skill-type">5 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Time-series and circadian expression analysis.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">MetaCycle</span><span class="tag">JTK_CYCLE</span></div>
+          <a href="assets/bio-skills/temporal-genomics.zip" download="temporal-genomics.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="variant-calling gatk deepvariant manta">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Variant Calling</h3>
+            <div class="skill-type">13 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">SNPs, indels, SVs with GATK, DeepVariant, Manta, Delly.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">GATK</span><span class="tag">DeepVariant</span><span class="tag">Manta</span></div>
+          <a href="assets/bio-skills/variant-calling.zip" download="variant-calling.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="workflow-management snakemake nextflow">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>Workflow Management</h3>
+            <div class="skill-type">4 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Snakemake, Nextflow, CWL, WDL pipeline scaffolding.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Snakemake</span><span class="tag">Nextflow</span></div>
+          <a href="assets/bio-skills/workflow-management.zip" download="workflow-management.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+      <div class="skill-card bio-card" data-tags="workflows pipelines end-to-end">
+        <div class="skill-card-header">
+          <div class="icon-tile icon-tile-sm">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 4c4 4 12 4 16 0M4 8c4 4 12 4 16 0M4 12c4 4 12 4 16 0M4 16c4 4 12 4 16 0M4 20c4 4 12 4 16 0"/></svg>
+          </div>
+          <div class="skill-meta">
+            <h3>End-to-end Workflows</h3>
+            <div class="skill-type">41 skills · auto-applied</div>
+          </div>
+        </div>
+        <p class="skill-desc">Ready-to-run analysis pipelines combining multiple skills.</p>
+        <div class="skill-footer">
+          <div class="skill-tags"><span class="tag">Pipelines</span><span class="tag">End-to-end</span></div>
+          <a href="assets/bio-skills/workflows.zip" download="workflows.zip" class="skill-dl-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> .zip</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="no-results" id="skills-no-results" style="display:none;">No skills match your search.</div>
   </div>
 
   <!-- CTA -->
@@ -544,6 +1642,32 @@ extensions: []</pre>
     });
     const section = document.getElementById('extensions-section');
     if (q && section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function filterSkills() {
+    const q = document.getElementById('skill-search').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('#skills-section .skill-card');
+    let visibleTotal = 0;
+    cards.forEach(c => {
+      const haystack = (c.textContent + ' ' + (c.dataset.tags || '')).toLowerCase();
+      const show = !q || haystack.includes(q);
+      c.style.display = show ? '' : 'none';
+      if (show) visibleTotal++;
+    });
+    const noResults = document.getElementById('skills-no-results');
+    if (noResults) noResults.style.display = (q && visibleTotal === 0) ? '' : 'none';
+
+    // Hide subsection titles whose grid has no visible cards under the active filter
+    document.querySelectorAll('#skills-section .subsection-title').forEach(title => {
+      let grid = title.nextElementSibling;
+      while (grid && !(grid.classList && grid.classList.contains('skill-grid'))) {
+        grid = grid.nextElementSibling;
+      }
+      if (!grid) return;
+      const anyVisible = Array.from(grid.querySelectorAll('.skill-card')).some(c => c.style.display !== 'none');
+      title.style.display = (q && !anyVisible) ? 'none' : '';
+      grid.style.display = (q && !anyVisible) ? 'none' : '';
+    });
   }
 
   function toggleYaml(btn, id) {

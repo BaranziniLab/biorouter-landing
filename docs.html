@@ -104,9 +104,9 @@
           <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           Extensions and skills
         </button>
-        <button class="docs-nav-item" id="dnav-recipes" onclick="showDoc('recipes')">
-          <svg class="icon" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-          Recipes and automation
+        <button class="docs-nav-item" id="dnav-workflows" onclick="showDoc('workflows')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Workflows and automation
         </button>
         <button class="docs-nav-item" id="dnav-privacy" onclick="showDoc('privacy')">
           <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -157,7 +157,7 @@
             <h3>Connect an LLM provider</h3>
             <p>BioRouter will guide you on first launch. Choose the option that fits your needs:</p>
             <ul>
-              <li><strong>UCSF users:</strong> Select <em>Azure OpenAI</em> (UCSF ChatGPT) with endpoint <code>https://unified-api.ucsf.edu/general</code>, deployment <code>gpt-5-2025-08-07</code>, and your Versa API key. Or select <em>Amazon Bedrock</em> (UCSF Anthropic). Full details are in the <a href="#" onclick="showDoc('ucsf')">UCSF setup guide</a>.</li>
+              <li><strong>UCSF users:</strong> Select <em>Azure OpenAI</em> (UCSF ChatGPT) with endpoint <code>https://unified-api.ucsf.edu/general</code>, deployment <code>gpt-5.2-2025-12-11</code>, and your Versa API key. Or select <em>Amazon Bedrock</em> (UCSF Anthropic). Full details are in the <a href="#" onclick="showDoc('ucsf')">UCSF setup guide</a>.</li>
               <li><strong>Commercial API:</strong> Enter your Anthropic, OpenAI, or Google API key.</li>
               <li><strong>Fully local:</strong> Install <a href="https://ollama.com/download" target="_blank">Ollama</a>, pull a model (<code>ollama pull qwen3</code>), and select Ollama in BioRouter. No API key, no data leaves your machine.</li>
             </ul>
@@ -211,7 +211,7 @@
           <thead><tr><th>Field</th><th>Environment variable</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td>Endpoint</td><td><code>AZURE_OPENAI_ENDPOINT</code></td><td><code>https://unified-api.ucsf.edu/general</code></td></tr>
-            <tr><td>Deployment Name</td><td><code>AZURE_OPENAI_DEPLOYMENT_NAME</code></td><td><code>gpt-5-2025-08-07</code></td></tr>
+            <tr><td>Deployment Name</td><td><code>AZURE_OPENAI_DEPLOYMENT_NAME</code></td><td><code>gpt-5.2-2025-12-11</code></td></tr>
             <tr><td>API Version</td><td><code>AZURE_OPENAI_API_VERSION</code></td><td><code>2025-01-01-preview</code></td></tr>
             <tr><td>API Key</td><td><code>AZURE_OPENAI_API_KEY</code></td><td>Your UCSF Versa API key</td></tr>
           </tbody>
@@ -297,73 +297,81 @@
       <!-- PROVIDERS -->
       <div class="doc-page" id="doc-providers">
         <h1>Providers and models</h1>
-        <p class="doc-intro">BioRouter connects to a range of LLM providers. Switch providers any time from Settings, Models, without changing your workflows.</p>
+        <p class="doc-intro">BioRouter connects to a range of LLM providers. Switch providers any time from Settings → Models without changing your workflows. Defaults below reflect <code>biorouter v1.75.2</code>.</p>
 
         <h2>UCSF institutional providers</h2>
         <table class="doc-table">
           <thead><tr><th>Provider</th><th>Access</th><th>Default model</th></tr></thead>
           <tbody>
-            <tr><td><strong>Azure OpenAI</strong> (UCSF ChatGPT)</td><td>UCSF Versa API key · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>gpt-5-2025-08-07</code></td></tr>
-            <tr><td><strong>Amazon Bedrock</strong> (UCSF Anthropic)</td><td>UCSF proxy credentials · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>us.anthropic.claude-sonnet-4-6</code></td></tr>
+            <tr><td><strong>Versa Azure OpenAI</strong> (UCSF ChatGPT)</td><td>UCSF Versa API key · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>gpt-5.2-2025-12-11</code></td></tr>
+            <tr><td><strong>Versa Bedrock</strong> (UCSF Anthropic)</td><td>UCSF Versa credentials · <a href="#" onclick="showDoc('ucsf')">Setup guide →</a></td><td><code>us.anthropic.claude-sonnet-4-6</code></td></tr>
           </tbody>
         </table>
 
         <h2>Commercial cloud providers</h2>
         <table class="doc-table">
-          <thead><tr><th>Provider</th><th>Env variable</th><th>Get API key</th></tr></thead>
+          <thead><tr><th>Provider</th><th>Env variable</th><th>Default model</th><th>Get API key</th></tr></thead>
           <tbody>
-            <tr><td><strong>Anthropic</strong></td><td><code>ANTHROPIC_API_KEY</code></td><td><a href="https://platform.claude.com/" target="_blank">platform.claude.com</a></td></tr>
-            <tr><td><strong>OpenAI</strong></td><td><code>OPENAI_API_KEY</code></td><td><a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a></td></tr>
-            <tr><td><strong>Google Gemini</strong></td><td><code>GOOGLE_API_KEY</code></td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td></tr>
-            <tr><td><strong>X.AI (Grok)</strong></td><td><code>XAI_API_KEY</code></td><td><a href="https://console.x.ai" target="_blank">console.x.ai</a></td></tr>
-            <tr><td><strong>OpenRouter</strong></td><td><code>OPENROUTER_API_KEY</code></td><td><a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a></td></tr>
+            <tr><td><strong>Anthropic</strong></td><td><code>ANTHROPIC_API_KEY</code></td><td><code>claude-sonnet-4-6</code></td><td><a href="https://platform.claude.com/" target="_blank">platform.claude.com</a></td></tr>
+            <tr><td><strong>OpenAI</strong></td><td><code>OPENAI_API_KEY</code></td><td><code>gpt-5.2</code></td><td><a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a></td></tr>
+            <tr><td><strong>Azure OpenAI</strong> (own tenant)</td><td><code>AZURE_OPENAI_API_KEY</code></td><td><code>gpt-5.2-2025-12-11</code></td><td>Your Azure portal</td></tr>
+            <tr><td><strong>Google Gemini</strong></td><td><code>GOOGLE_API_KEY</code></td><td><code>gemini-2.5-pro</code></td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td></tr>
+            <tr><td><strong>X.AI (Grok)</strong></td><td><code>XAI_API_KEY</code></td><td><code>grok-code-fast-1</code></td><td><a href="https://console.x.ai" target="_blank">console.x.ai</a></td></tr>
+            <tr><td><strong>OpenRouter</strong></td><td><code>OPENROUTER_API_KEY</code></td><td><code>anthropic/claude-sonnet-4</code></td><td><a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a></td></tr>
+            <tr><td><strong>Amazon Bedrock</strong> (own AWS)</td><td>AWS IAM credentials</td><td><code>us.anthropic.claude-sonnet-4-6</code></td><td>Your AWS console</td></tr>
           </tbody>
         </table>
+        <p style="font-size:13px;color:var(--text-2);margin-top:-4px;">Every provider exposes its full model list once configured — defaults above are what BioRouter selects when no model is specified.</p>
 
         <h2>Local models with Ollama</h2>
-        <p>Install Ollama, pull any model, and select Ollama in BioRouter. Everything stays on your machine.</p>
+        <p>Install Ollama, pull any model, and select Ollama in BioRouter. Everything stays on your machine. Default model: <code>qwen3</code>.</p>
         <pre>ollama pull qwen3           # General-purpose default
 ollama pull llama3.2        # Fast lightweight option
 ollama pull deepseek-r1     # Strong reasoning model</pre>
         <p><a href="https://ollama.com/library" target="_blank">Browse all available Ollama models →</a></p>
 
         <h2>Switching providers</h2>
-        <p><strong>Desktop:</strong> Settings, Models, select a provider card, Configure or Launch.<br>
-        <strong>CLI:</strong> <code>biorouter configure</code>, then Select "Configure Providers"</p>
+        <p><strong>Desktop:</strong> Settings → Models, select a provider card, <em>Configure</em> or <em>Launch</em>.<br>
+        <strong>CLI:</strong> <code>biorouter configure</code>, then <em>Configure Providers</em></p>
       </div>
 
       <!-- EXTENSIONS -->
       <div class="doc-page" id="doc-extensions">
         <h1>Extensions, skills, and MCP</h1>
-        <p class="doc-intro">Extend BioRouter with MCP servers, reusable skills, and built-in platform capabilities: database access, browser automation, and more.</p>
+        <p class="doc-intro">Extend BioRouter with built-in capabilities, third-party MCP servers, and reusable skill bundles. Defaults reflect <code>biorouter v1.75.2</code> (<code>ui/desktop/src/built-in-extensions.json</code>).</p>
 
         <h2>Built-in extensions</h2>
+        <p>Ship with BioRouter — no install needed. Enable or disable any of them from <strong>Settings → Extensions</strong>.</p>
         <table class="doc-table">
           <thead><tr><th>Extension</th><th>What it does</th><th>Default</th></tr></thead>
           <tbody>
-            <tr><td><strong>Developer</strong></td><td>File operations, shell commands, code search, text editing</td><td>On</td></tr>
-            <tr><td>Computer Controller</td><td>Web scraping, file caching, browser automation</td><td>Off</td></tr>
-            <tr><td>Memory</td><td>Remembers user preferences and context across sessions</td><td>Off</td></tr>
-            <tr><td>Auto Visualiser</td><td>Generates data visualizations from conversation</td><td>Off</td></tr>
-            <tr><td>Chat Recall</td><td>Search across all past conversation history</td><td>Off</td></tr>
-            <tr><td>Code Execution</td><td>Run JavaScript in a sandboxed environment</td><td>Off</td></tr>
-            <tr><td><strong>Skills</strong></td><td>Load and invoke reusable instruction sets</td><td>On</td></tr>
-            <tr><td><strong>Extension Manager</strong></td><td>Discover, enable, and disable extensions mid-session</td><td>On</td></tr>
+            <tr><td><strong>Developer</strong></td><td>File operations, shell commands, code search, text editing</td><td><strong>On</strong></td></tr>
+            <tr><td>Computer Controller</td><td>General computer-control tools for non-developer workflows</td><td>Off</td></tr>
+            <tr><td>Auto Visualiser</td><td>Automatically render UI for the data BioRouter produces</td><td>Off</td></tr>
+            <tr><td>Memory</td><td>Persist preferences and context across sessions</td><td>Off</td></tr>
+            <tr><td>Tutorial</td><td>Interactive in-app tutorials and guides</td><td>Off</td></tr>
           </tbody>
         </table>
 
-        <h2>Enabling extensions</h2>
-        <p><strong>Desktop:</strong> Sidebar, Extensions, toggle on.<br>
-        <strong>CLI:</strong> <code>biorouter configure</code>, Add Extension, Built-in Extension</p>
+        <h2>Installing a <code>.brxt</code> extension</h2>
+        <p>BioRouter extensions are distributed as <code>.brxt</code> bundles — a zipped manifest plus a Python MCP server entry point. Installation is drag-and-drop; no terminal needed.</p>
+        <ol>
+          <li>Download a <code>.brxt</code> file from the <a href="baam.html">BAAM marketplace</a>.</li>
+          <li>In BioRouter, open <strong>Settings → Extensions → Add Extension</strong>.</li>
+          <li>Drag the <code>.brxt</code> file onto the drop zone (or click <em>Browse file…</em>). BioRouter validates the manifest and previews the extension's name, version, tool count, and any bundled skills.</li>
+          <li>Click <strong>Next: Configure →</strong> and fill in any required environment variables (API keys, endpoints). Secrets are stored in BioRouter's keyring; non-secret values are written into <code>config.yaml</code>.</li>
+          <li>Click <strong>Install</strong>. BioRouter unpacks the bundle, runs it via <code>uv run --directory &lt;installDir&gt; &lt;entry_point&gt;</code>, and enables it automatically.</li>
+        </ol>
+        <p style="font-size:13px;color:var(--text-2);">Any bundled skills inside the <code>.brxt</code> are installed alongside the extension and appear under BioRouter → Skills.</p>
 
-        <h2>Adding external MCP servers</h2>
-        <p><strong>Desktop:</strong> Sidebar, Extensions, Add custom extension. Enter type, ID, name, command, and env vars.</p>
+        <h2>Adding an external MCP server manually</h2>
+        <p><strong>Desktop:</strong> Settings → Extensions → Add custom extension. Pick the transport (stdio / SSE / streamable HTTP), then enter ID, name, command, args, and env vars.</p>
         <p><strong>Config file</strong> (<code>~/.config/biorouter/config.yaml</code>):</p>
         <pre>extensions:
   github:
     name: GitHub
     cmd: npx
-    args: [-y @modelcontextprotocol/server-github]
+    args: [-y, "@modelcontextprotocol/server-github"]
     enabled: true
     envs:
       GITHUB_PERSONAL_ACCESS_TOKEN: "&lt;your_token&gt;"
@@ -371,46 +379,88 @@ ollama pull deepseek-r1     # Strong reasoning model</pre>
     timeout: 300</pre>
 
         <h2>Skills system</h2>
-        <p>Skills are reusable <code>.md</code> instruction files that encode your team's workflows and best practices. Drop a skill file in your skills directory and BioRouter makes it callable in any session.</p>
-        <p>Skills can be shared across a team or institution to standardize analysis pipelines, without sharing any underlying data.</p>
+        <p>A skill is a folder containing a <code>SKILL.md</code> file with YAML frontmatter (<code>name</code>, <code>description</code>, optional <code>user-invocable</code>) and freeform instructions. BioRouter loads every skill it finds under <code>~/.config/biorouter/skills/</code>, <code>~/.claude/skills/</code>, and <code>~/.config/agents/skills/</code>.</p>
+
+        <h3>Installing a skill (drag-and-drop)</h3>
+        <ol>
+          <li>Download a skill <code>.zip</code> from the <a href="baam.html">BAAM marketplace</a> (or write your own <code>SKILL.md</code>).</li>
+          <li>In BioRouter, open <strong>Skills → Add Skill</strong>.</li>
+          <li>Drag the <code>.zip</code> (bundle of many skills) or a single <code>.md</code> file onto the drop zone. BioRouter parses the frontmatter, previews the skill(s), and on confirmation copies them into <code>~/.config/biorouter/skills/&lt;slug&gt;/</code>.</li>
+        </ol>
+        <p>Auto-applied skills activate whenever BioRouter encounters a relevant file or task. To bypass the GUI entirely, unzip a bundle and copy the folder into <code>~/.config/biorouter/skills/</code> directly — BioRouter picks it up on next launch.</p>
+        <p style="font-size:13px;color:var(--text-2);">Skill folders are plain text and reproducible. Share them across a lab or institution to standardize analysis style without sharing any underlying data.</p>
       </div>
 
-      <!-- RECIPES -->
-      <div class="doc-page" id="doc-recipes">
-        <h1>Recipes and automation</h1>
-        <p class="doc-intro">Recipes package any workflow into a shareable, parameterizable, schedulable unit. They are the foundation of federated research collaboration in BioRouter.</p>
+      <!-- WORKFLOWS -->
+      <div class="doc-page" id="doc-workflows">
+        <h1>Workflows and automation</h1>
+        <p class="doc-intro">A <strong>Workflow</strong> is a portable YAML file that packages a prompt, the extensions and skills it needs, and an optional schedule. Workflows are the foundation of federated research collaboration in BioRouter — instructions travel between institutions, data does not. (Schema reference: <code>crates/biorouter/src/workflow/mod.rs</code>.)</p>
 
-        <h2>What is a recipe?</h2>
-        <p>A Recipe is a YAML file that defines a prompt template, input parameters, and an optional schedule. Recipes enable reproducible, shareable workflows that travel across institutions without carrying any data.</p>
+        <h2>Workflow YAML format</h2>
+        <p>A minimum workflow needs three top-level fields: <code>version</code>, <code>title</code>, <code>description</code>, plus at least one of <code>instructions</code> or <code>prompt</code>. Everything else is optional.</p>
+        <pre>version: 1.0.0
+title: Literature review
+description: Summarize recent papers on a research topic.
 
-        <h2>Recipe structure</h2>
-        <pre>name: "Literature Review"
-description: "Summarize recent papers on a research topic"
-parameters:
-  - name: topic
-    description: "Research topic to review"
-    required: true
-  - name: years
-    description: "How many years back to cover"
-    default: "3"
+instructions: |
+  You are a scientific literature reviewer. Read the user-supplied
+  topic, search for relevant publications, and write a structured
+  summary focused on clinical relevance and methodology.
+
 prompt: |
-  You are a scientific literature reviewer.
-  Summarize key findings on: {{ topic }}
-  Cover publications from the past {{ years }} years.
-  Focus on clinical relevance and methodology.</pre>
+  Summarize the past {{ years }} years of work on {{ topic }}.
 
-        <h2>Running a recipe</h2>
-        <p><strong>Desktop:</strong> Sidebar, Recipes, select a recipe, fill parameters, Run.</p>
+# pin a provider/model/temperature for reproducibility
+settings:
+  biorouter_provider: versa_bedrock
+  biorouter_model: us.anthropic.claude-sonnet-4-6
+  temperature: 0.2
+
+# pre-enable extensions the workflow expects to use
+extensions:
+  - type: builtin
+    name: developer
+
+# activity pills shown while the workflow loads
+activities:
+  - Fetch papers
+  - Summarize findings
+  - Cite sources
+
+# typed parameters surfaced in the GUI / CLI
+parameters:
+  - key: topic
+    input_type: string
+    requirement: required
+    description: Research topic to review.
+  - key: years
+    input_type: number
+    requirement: optional
+    default: 3
+
+# compose larger flows from smaller ones
+sub_workflows:
+  - name: cite-check
+    path: ./sub-workflows/cite-check.yaml
+
+# retry policy for transient failures
+retry:
+  max_attempts: 3</pre>
+
+        <h2>Running a workflow</h2>
+        <p><strong>Desktop:</strong> Sidebar → Workflows → select a workflow → fill parameters → Run. To import a workflow file, use <strong>Workflows → Import workflow</strong>.</p>
         <p><strong>CLI:</strong></p>
-        <pre>biorouter run recipe.yaml --param topic="SPOKE knowledge graph" --param years=5</pre>
+        <pre>biorouter run --recipe workflow.yaml --params topic="SPOKE knowledge graph",years=5</pre>
 
-        <h2>Scheduling recipes</h2>
-        <p>Add a <code>schedule</code> field using cron syntax to run a recipe automatically:</p>
-        <pre>schedule: "0 8 * * 1"   # Every Monday at 8:00 AM</pre>
-        <p>Scheduled recipes run via BioRouter's background service, even when the desktop app is closed.</p>
+        <h2>Creating a workflow from a session</h2>
+        <p>After an exploratory chat that produced a useful result, open <strong>Workflows → Create from session</strong>. BioRouter extracts the instructions, the extensions you actually used, and the model you ran on into a fresh YAML file you can edit, share, or schedule.</p>
 
-        <h2>Sharing recipes</h2>
-        <p>Recipe files are plain YAML text. Commit them to a shared repository, publish them on GitHub, or email them. Recipients open them with <strong>File, Open Recipe</strong> or <code>biorouter run &lt;recipe.yaml&gt;</code>. No data is embedded; only the workflow logic.</p>
+        <h2>Scheduling workflows</h2>
+        <p>Schedules are managed separately from the workflow file via BioRouter's scheduler (Sidebar → Schedules → New schedule). Pick a workflow, give it a cron expression, and BioRouter's background service runs it on cadence — even with the desktop app closed.</p>
+        <pre>cron: "0 8 * * 1"   # Every Monday at 8:00 AM</pre>
+
+        <h2>Sharing workflows</h2>
+        <p>Workflow files are plain YAML text. Commit them to a shared repository, publish them on GitHub, or email them. Recipients open them with <strong>Workflows → Import workflow</strong> or <code>biorouter run --recipe &lt;file.yaml&gt;</code>. No data is embedded — only the instructions, extension list, and parameter schema travel.</p>
       </div>
 
       <!-- PRIVACY -->
@@ -460,7 +510,7 @@ prompt: |
         <table class="doc-table">
           <thead><tr><th>Crate</th><th>Role</th></tr></thead>
           <tbody>
-            <tr><td><code>biorouter</code></td><td>Core agent library: loop, providers, sessions, recipes, scheduling</td></tr>
+            <tr><td><code>biorouter</code></td><td>Core agent library: loop, providers, sessions, workflows, scheduling</td></tr>
             <tr><td><code>biorouter-server</code></td><td>Local REST API server (<code>biorouterd</code>) the desktop communicates with</td></tr>
             <tr><td><code>biorouter-cli</code></td><td>CLI binary: <code>biorouter session</code>, <code>biorouter configure</code>, and so on</td></tr>
             <tr><td><code>biorouter-mcp</code></td><td>Built-in MCP servers (Developer, Computer Controller, and others)</td></tr>
@@ -538,7 +588,7 @@ prompt: |
     if (m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
   });
 
-  const DOC_PAGES = ['install','ucsf','providers','extensions','recipes','privacy','arch','agents'];
+  const DOC_PAGES = ['install','ucsf','providers','extensions','workflows','privacy','arch','agents'];
   function showDoc(name) {
     DOC_PAGES.forEach(d => {
       const p = document.getElementById('doc-' + d);

@@ -106,6 +106,53 @@
       .news-date { width: auto; text-align: left; padding: 0; }
       .news-date .day, .news-date .mon { display: inline; font-size: 13px; }
     }
+
+    /* Slack invite — top-of-page banner */
+    .slack-cta {
+      display: flex; align-items: center; gap: 22px;
+      background: var(--bg-2);
+      border-radius: var(--radius-xl);
+      padding: 22px 26px 22px 24px;
+      box-shadow: var(--shadow);
+      text-decoration: none; color: inherit;
+      margin: 0 0 40px;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .slack-cta:hover { background: var(--bg-3); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+    .slack-icon-wrap {
+      flex-shrink: 0; width: 44px; height: 44px;
+      border-radius: var(--radius);
+      background: var(--bg-3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .slack-icon-wrap svg { width: 22px; height: 22px; }
+    .slack-cta-body { flex: 1; min-width: 0; }
+    .slack-cta-eyebrow {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .slack-cta-body h3 {
+      font-size: 16px; font-weight: 700; margin-bottom: 3px;
+      letter-spacing: -0.2px;
+    }
+    .slack-cta-body p {
+      font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.55;
+    }
+    .slack-cta-arrow {
+      flex-shrink: 0;
+      background: var(--accent-soft); color: var(--accent);
+      padding: 9px 16px; border-radius: var(--radius);
+      font-size: 12.5px; font-weight: 700; white-space: nowrap;
+      transition: background var(--transition), color var(--transition);
+    }
+    .slack-cta:hover .slack-cta-arrow { background: var(--accent); color: #fff; }
+
+    @media (max-width: 560px) {
+      .slack-cta { flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px; }
+      .slack-cta-arrow { align-self: stretch; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -145,22 +192,94 @@
     <h1>About BioRouter</h1>
     <p class="subtitle">UCSF BioRouter is an open-source, AI-powered research environment developed at the Baranzini Lab, UCSF.</p>
 
+    <!-- Slack invite (top-of-page banner) -->
+    <a href="https://join.slack.com/t/ucsfbiorouter/shared_invite/zt-3t1s7vdq8-alXeG6GxVfhAXzrJQxNVNw" target="_blank" class="slack-cta">
+      <div class="slack-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="9" x2="20" y2="9"/>
+          <line x1="4" y1="15" x2="20" y2="15"/>
+          <line x1="10" y1="3" x2="8" y2="21"/>
+          <line x1="16" y1="3" x2="14" y2="21"/>
+        </svg>
+      </div>
+      <div class="slack-cta-body">
+        <div class="slack-cta-eyebrow">Community</div>
+        <h3>Join the BioRouter Slack</h3>
+        <p>Open community for issue reporting, feature requests, and discussion. <code style="font-size:11.5px;user-select:all;">join.slack.com/t/ucsfbiorouter</code></p>
+      </div>
+      <span class="slack-cta-arrow">Join the Slack →</span>
+    </a>
+
     <!-- NEWS -->
     <div class="section-header">
       <p class="eyebrow">News</p>
       <h2>Latest updates</h2>
     </div>
     <div class="news-list">
-      <a href="https://join.slack.com/t/ucsfbiorouter/shared_invite/zt-3t1s7vdq8-alXeG6GxVfhAXzrJQxNVNw" target="_blank" class="news-row">
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.75.2" target="_blank" class="news-row">
         <div class="news-date">
-          <div class="day">16</div>
-          <div class="mon">Mar</div>
+          <div class="day">13</div>
+          <div class="mon">May</div>
         </div>
         <div class="news-body">
-          <h3>UCSF BioRouter Slack channel is live</h3>
-          <p>All UCSF affiliates can join the official BioRouter Slack workspace for issue reporting, feature requests, and community discussion.</p>
-          <p style="margin-top:8px; font-size:13px;">Join link: <code style="user-select:all;">join.slack.com/t/ucsfbiorouter</code></p>
-          <div class="news-link">Join the Slack →</div>
+          <h3>BioRouter v1.75.2 — Versa Bedrock works on first install</h3>
+          <p>Headline fix: a fresh Versa API Bedrock setup with just an Access Key ID and Secret Access Key now succeeds on the first try. <code>AWS_ENDPOINT_URL_BEDROCK</code> is now a first-class config field pre-populated with the UCSF MuleSoft proxy URL, and the Rust provider builds an explicit <code>Credentials</code> object so the AWS SDK no longer falls through to <code>~/.aws/credentials</code>. The misleading <code>AWS_PROFILE</code> default was removed, generic Bedrock / Azure provider cards no longer carry UCSF-specific copy, and the extension installer's <code>uv sync</code> now runs with an augmented PATH.</p>
+          <div class="news-link">View the release notes →</div>
+        </div>
+      </a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.75.1" target="_blank" class="news-row">
+        <div class="news-date">
+          <div class="day">13</div>
+          <div class="mon">May</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.75.1 — session-rename consistency fix</h3>
+          <p>Bug fix patch. Renames (manual via the title pill or automatic via the LLM) now propagate consistently across the history list, the chat-tab title, and any open dashboard window. New <code>sessionNameSync</code> module centralizes the cache and broadcasts changes across views; user-set names are now authoritative and lock against later LLM auto-renames.</p>
+          <div class="news-link">View the release notes →</div>
+        </div>
+      </a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.75.0" target="_blank" class="news-row">
+        <div class="news-date">
+          <div class="day">12</div>
+          <div class="mon">May</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.75.0 — Dashboard Mode</h3>
+          <p>New full-window canvas workspace for spawning, arranging, and running multiple chat sessions side-by-side on an infinite pannable surface. Refreshed chat input bar with a real-time context-window indicator, collapsible picker popover, and tighter typography. Reliability hardening: bounded session-results cache, capped SSE retries, normalized <code>shell.openExternal</code> URLs, and tighter paste-image limits.</p>
+          <div class="news-link">View the release notes →</div>
+        </div>
+      </a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.72.1" target="_blank" class="news-row">
+        <div class="news-date">
+          <div class="day">8</div>
+          <div class="mon">May</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.72.1 — Skills, .brxt, Workflows rename</h3>
+          <p>First-class Skills system (install from <code>.md</code> or <code>.zip</code>) and the <code>.brxt</code> extension bundle format for one-drag installs with bundled skills, tools, and config. UI redesign with warm cream tones and flat surfaces. Latest models added: GPT-5.4, GPT-5.5, Claude Sonnet 4.6, Claude Opus 4.7. UCSF Versa Azure and AWS Bedrock appear in Provider Configuration. Recipes renamed to <strong>Workflows</strong>. Patch fixes GPT-5.5 reasoning_effort routing and skill disable enforcement.</p>
+          <div class="news-link">View the release notes →</div>
+        </div>
+      </a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.60.0" target="_blank" class="news-row">
+        <div class="news-date">
+          <div class="day">13</div>
+          <div class="mon">Apr</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.60.0 — provider model refresh</h3>
+          <p>Model updates across providers (Claude Sonnet 4.6, GPT-5.2, Gemini 3), GPT-5.4 support via the OpenAI Responses API, simpler AWS Bedrock endpoint configuration, and a standalone CLI binary for all platforms.</p>
+          <div class="news-link">View the release notes →</div>
+        </div>
+      </a>
+      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.50.0" target="_blank" class="news-row">
+        <div class="news-date">
+          <div class="day">13</div>
+          <div class="mon">Apr</div>
+        </div>
+        <div class="news-body">
+          <h3>BioRouter v1.50.0 — Workflows rename across the codebase</h3>
+          <p>Renamed <em>recipe → workflow</em> everywhere with a session-database migration (v7) that rewrites <code>recipe_json</code> columns to <code>workflow_json</code>, fixing the "Error Loading Sessions" upgrade path. Redesigned provider cards with UCSF default values for Azure OpenAI and Amazon Bedrock. Electron upgraded to 39.8.7.</p>
+          <div class="news-link">View the release notes →</div>
         </div>
       </a>
       <a href="https://ucsfonline.sharepoint.com/:v:/s/ARS/IQAApkOwTvaMSI0Zk_-IBd5AAbgZsuaRtvxKnsHOdD3mJns?e=HfCQVo&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&referrer=Outlook.Web&referrerScenario=email-linkwithembed" target="_blank" class="news-row">
@@ -174,25 +293,14 @@
           <div class="news-link">Watch the recording →</div>
         </div>
       </a>
-      <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.60.0" target="_blank" class="news-row">
-        <div class="news-date">
-          <div class="day">Apr</div>
-          <div class="mon">2026</div>
-        </div>
-        <div class="news-body">
-          <h3>BioRouter v1.60.0 released</h3>
-          <p>Model updates across providers (Claude Sonnet 4.6, GPT-5.2, Gemini 3), GPT-5.4 support via the OpenAI Responses API, simpler AWS Bedrock endpoint configuration, a standalone CLI binary for all platforms, and a session history fix for pre-v1.50 upgrades.</p>
-          <div class="news-link">View the release notes →</div>
-        </div>
-      </a>
       <a href="https://github.com/BaranziniLab/BioRouter/releases/tag/v1.20.0" target="_blank" class="news-row">
         <div class="news-date">
-          <div class="day">Feb</div>
-          <div class="mon">2026</div>
+          <div class="day">21</div>
+          <div class="mon">Jan</div>
         </div>
         <div class="news-body">
-          <h3>BioRouter v1.20.0 released</h3>
-          <p>Multi-platform launch (macOS Apple Silicon and Intel, Windows x64, Linux Debian and RPM), updated default models (Claude Sonnet 4 and GPT-4.1), refreshed branding, simpler provider onboarding, and a complete documentation suite.</p>
+          <h3>BioRouter v1.20.0 — multi-platform launch</h3>
+          <p>Native installers for macOS Apple Silicon and Intel, Windows x64, and Linux Debian and RPM. Default models updated to Claude Sonnet 4 and GPT-4.1. Refreshed branding, simpler provider onboarding, and a complete documentation suite.</p>
           <div class="news-link">View the release notes →</div>
         </div>
       </a>
